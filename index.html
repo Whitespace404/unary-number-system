@@ -712,7 +712,7 @@
             .grid-axis-col-headers {
                 display: flex;
                 gap: 12px;
-                margin-left: 90px;
+                margin-left: 0;
                 margin-bottom: 8px;
             }
 
@@ -815,6 +815,66 @@
                 font-family: monospace;
             }
 
+            /* Greyed-out Zero Cells in Cantor Visualization */
+            .grid-cell.cell-zero {
+                background: repeating-linear-gradient(
+                    -45deg,
+                    #f8fafc,
+                    #f8fafc 6px,
+                    #f1f5f9 6px,
+                    #f1f5f9 12px
+                ) !important;
+                border-color: #cbd5e1 !important;
+                opacity: 0.52;
+                filter: grayscale(100%);
+            }
+
+            .grid-cell.cell-zero .cell-coord {
+                color: #94a3b8 !important;
+            }
+
+            .grid-cell.cell-zero .cell-z {
+                color: #94a3b8 !important;
+            }
+
+            .grid-cell.cell-zero .cell-fraction {
+                color: #94a3b8 !important;
+            }
+
+            .grid-cell.cell-zero:hover {
+                opacity: 0.88;
+                filter: grayscale(35%);
+                border-color: #94a3b8 !important;
+                transform: translateY(-4px) scale(1.04);
+            }
+
+            .grid-cell.cell-zero.active-walk {
+                opacity: 0.95;
+                filter: grayscale(20%);
+                box-shadow:
+                    0 0 0 4px #94a3b8,
+                    0 10px 24px rgba(15, 23, 42, 0.18);
+                border-color: #64748b !important;
+                transform: scale(1.08);
+                z-index: 25;
+            }
+
+            .grid-cell.cell-zero.in-path {
+                border-color: #94a3b8 !important;
+            }
+
+            .cell-zero-marker {
+                position: absolute;
+                top: 5px;
+                right: 7px;
+                font-size: 0.72rem;
+                font-weight: 900;
+                color: #94a3b8;
+                line-height: 1;
+                pointer-events: none;
+                user-select: none;
+            }
+
             /* 1D Tape Visualizer */
             .tape-section {
                 margin-top: 24px;
@@ -889,6 +949,102 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+            }
+
+            /* Greyed-out Tape Cells */
+            .tape-cell.cell-zero {
+                background: repeating-linear-gradient(
+                    -45deg,
+                    #f8fafc,
+                    #f8fafc 6px,
+                    #f1f5f9 6px,
+                    #f1f5f9 12px
+                ) !important;
+                border-color: #cbd5e1 !important;
+                opacity: 0.52;
+                filter: grayscale(100%);
+                position: relative;
+            }
+
+            .tape-cell.cell-zero .tape-index {
+                color: #94a3b8 !important;
+            }
+
+            .tape-cell.cell-zero .tape-sub {
+                color: #94a3b8 !important;
+            }
+
+            .tape-cell.cell-zero:hover {
+                opacity: 0.88;
+                filter: grayscale(35%);
+                border-color: #94a3b8 !important;
+                transform: translateY(-3px);
+            }
+
+            .tape-cell.cell-zero.active {
+                opacity: 0.95;
+                filter: grayscale(20%);
+                border: 3px solid #94a3b8 !important;
+                box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.35);
+                transform: scale(1.05);
+            }
+
+            .tape-zero-marker {
+                position: absolute;
+                top: 4px;
+                right: 6px;
+                font-size: 0.68rem;
+                font-weight: 900;
+                color: #94a3b8;
+                line-height: 1;
+                pointer-events: none;
+                user-select: none;
+            }
+
+            /* Legend Banner */
+            .grid-legend-banner {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 16px;
+                padding: 10px 16px;
+                background: #f8fafc;
+                border: 1.5px solid var(--border-color);
+                border-radius: var(--radius-md);
+                font-size: 0.84rem;
+                color: #475569;
+            }
+
+            .legend-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .legend-swatch {
+                width: 18px;
+                height: 18px;
+                border-radius: 6px;
+                flex-shrink: 0;
+            }
+
+            .legend-swatch-zero {
+                background: repeating-linear-gradient(
+                    -45deg,
+                    #f8fafc,
+                    #f8fafc 4px,
+                    #e2e8f0 4px,
+                    #e2e8f0 8px
+                );
+                border: 1.5px solid #cbd5e1;
+                opacity: 0.65;
+            }
+
+            .legend-swatch-valid {
+                background: #dcfce7;
+                border: 1.5px solid #86efac;
             }
 
             /* Explanation inspector card */
@@ -2551,6 +2707,7 @@
                         const w = k1 + k2;
                         const z = ((k1 + k2) * (k1 + k2 + 1)) / 2 + k2;
                         const unp = cantorUnpair(z);
+                        const isZero = unp.numerator === 0;
                         cells.push({
                             k1,
                             k2,
@@ -2558,6 +2715,7 @@
                             w,
                             a: unp.numerator,
                             b: unp.denominator,
+                            isZero,
                         });
                     }
                 }
@@ -2574,24 +2732,25 @@
                         const color = getDiagonalColor(item.w);
 
                         const cellEl = document.createElement("div");
-                        cellEl.className = "grid-cell";
+                        cellEl.className =
+                            "grid-cell" + (item.isZero ? " cell-zero" : "");
                         cellEl.id = `cell-${item.k1}-${item.k2}`;
-                        cellEl.style.setProperty("--cell-bg", color.bg);
-                        cellEl.style.setProperty("--cell-border", color.border);
 
-                        // Unary preview: 1s string or count
-                        const unaryPreview =
-                            item.z === 0
-                                ? "0"
-                                : item.z <= 6
-                                  ? "1".repeat(item.z)
-                                  : `${item.z}&times;'1'`;
+                        if (item.isZero) {
+                            cellEl.title = `(${item.k1}, ${item.k2}) → a/b = ${item.a}/${item.b} = 0 (Base-10 value is 0: not representable in unary)`;
+                        } else {
+                            cellEl.style.setProperty("--cell-bg", color.bg);
+                            cellEl.style.setProperty(
+                                "--cell-border",
+                                color.border,
+                            );
+                        }
 
                         cellEl.innerHTML = `
+            ${item.isZero ? '<span class="cell-zero-marker" title="Base-10 value is 0 (unrepresentable in unary)">∅</span>' : ""}
             <div class="cell-coord">${tex(`(${item.k1}, ${item.k2})`)}</div>
             <div class="cell-z">${item.z}</div>
             <div class="cell-fraction">${tex(`\\frac{${item.a}}{${item.b}}`)}</div>
-            <div class="cell-unary">${unaryPreview}</div>
           `;
 
                         cellEl.addEventListener("mouseenter", () =>
@@ -2663,23 +2822,22 @@
                 walkOrder.forEach((item) => {
                     const color = getDiagonalColor(item.w);
                     const tapeCell = document.createElement("div");
-                    tapeCell.className = "tape-cell";
+                    tapeCell.className =
+                        "tape-cell" + (item.isZero ? " cell-zero" : "");
                     tapeCell.id = `tape-slot-${item.z}`;
-                    tapeCell.style.backgroundColor = color.bg;
-                    tapeCell.style.borderColor = color.border;
 
-                    const unaryPreview =
-                        item.z === 0
-                            ? "∅"
-                            : item.z <= 6
-                              ? "1".repeat(item.z)
-                              : `${item.z}&times;'1'`;
+                    if (item.isZero) {
+                        tapeCell.title = `z = ${item.z} → a/b = ${item.a}/${item.b} = 0 (Base-10 value is 0: not representable in unary)`;
+                    } else {
+                        tapeCell.style.backgroundColor = color.bg;
+                        tapeCell.style.borderColor = color.border;
+                    }
 
                     tapeCell.innerHTML = `
+          ${item.isZero ? '<span class="tape-zero-marker" title="Base-10 value is 0 (unrepresentable in unary)">∅</span>' : ""}
           <div class="tape-index">${item.z}</div>
           <div class="tape-sub">${tex(`(${item.k1}, ${item.k2})`)}</div>
-          <div class="tape-sub" style="color:#0284c7;">${tex(`\\frac{${item.a}}{${item.b}}`)}</div>
-          <div class="tape-unary">${unaryPreview}</div>
+          <div class="tape-sub"${item.isZero ? "" : ' style="color:#0284c7;"'}>${tex(`\\frac{${item.a}}{${item.b}}`)}</div>
         `;
 
                     tapeCell.addEventListener("mouseenter", () =>
@@ -2726,14 +2884,33 @@
             function inspectCell(item, options = {}) {
                 const { scrollTape = false } = options;
                 const unaryStr = toUnary(item.z);
+                const isZero =
+                    item.isZero !== undefined ? item.isZero : item.a === 0;
+                const base10Val = item.a / item.b;
+                const base10Formatted = Number.isInteger(base10Val)
+                    ? base10Val
+                    : base10Val.toFixed(4);
+
+                const base10Display = isZero
+                    ? `<strong style="color: #e11d48;">0</strong> <span class="badge badge-rose" style="font-size:0.75rem; padding: 2px 7px;">Not representable in unary</span>`
+                    : `<code>${base10Formatted}</code>`;
+
                 inspectorContent.innerHTML = `
         <span><strong>Cell:</strong> ${tex(`(k_1, k_2) = (${item.k1}, ${item.k2})`)}</span> &bull;
         <span><strong>Diagonal:</strong> ${tex(`w = ${item.w}`)}</span> &bull;
         <span><strong>Cantor Index:</strong> ${tex(`z = ${item.z}`)}</span> &bull;
         <span><strong>Fraction:</strong> ${tex(`\\frac{a}{b} = \\frac{${item.a}}{${item.b}}`)}</span> &bull;
-        <span><strong>Unary:</strong> <code>${unaryStr ? unaryStr : "(0 length)"}</code> (${item.z} ones)</span>
+        <span><strong>Base-10:</strong> ${base10Display}</span> &bull;
+        <span><strong>Unary:</strong> <code>${unaryStr ? unaryStr : "&epsilon; (empty)"}</code> (${item.z} ones)</span>
       `;
-                inspectorBadge.innerText = `z = ${item.z}`;
+
+                if (isZero) {
+                    inspectorBadge.innerText = `z = ${item.z} (Base-10: 0 · Unrepresentable)`;
+                    inspectorBadge.className = "badge badge-rose";
+                } else {
+                    inspectorBadge.innerText = `z = ${item.z}`;
+                    inspectorBadge.className = "badge badge-blue";
+                }
 
                 // Highlight in tape
                 document
@@ -2908,6 +3085,19 @@
                 for (const [id, rendered] of Object.entries(cantorExpMap)) {
                     const el = document.getElementById(id);
                     if (el) el.innerHTML = rendered;
+                }
+
+                const footerEl = document.getElementById("info-footer-text");
+                if (footerEl) {
+                    const formulaBanner = tex(
+                        "\\pi(k_1, k_2) = \\frac{(k_1 + k_2)(k_1 + k_2 + 1)}{2} + k_2 = z",
+                    );
+                    footerEl.innerHTML = `
+                        <strong>Why does this work?</strong> Cantor's pairing function ${formulaBanner} establishes a bijection between ${tex("\\mathbb{N}_0 \\times \\mathbb{N}_0")} and ${tex("\\mathbb{N}_0")}.
+                        By mapping any rational fraction ${tex("\\frac{p}{q}")} to lattice coordinates ${tex("(k_1, k_2)")}, every fraction has a unique natural number index <strong>z</strong>.
+                        Repeating the symbol <code>'1'</code> exactly <strong>z</strong> times provides its unary tally.
+                        Numbers resulting in a Base-10 value of 0 (such as ${tex("\\frac{0}{1}, \\frac{0}{2}, \\dots")}) yield empty tallies and are greyed out because zero is not representable in unary counting.
+                    `;
                 }
             }
 
