@@ -787,18 +787,20 @@
                 border-color: #0f172a;
             }
 
-            .cell-coord {
-                font-size: 0.76rem;
+            .cell-z {
+                font-size: 0.78rem;
                 font-weight: 800;
                 color: #64748b;
                 margin-bottom: 2px;
+                line-height: 1.1;
             }
 
-            .cell-z {
-                font-size: 1.45rem;
+            .cell-coord {
+                font-size: 1.3rem;
                 font-weight: 900;
                 color: #0f172a;
                 line-height: 1;
+                margin: 2px 0;
             }
 
             .cell-fraction {
@@ -1383,8 +1385,8 @@
                 .grid-axis-col-headers {
                     margin-left: 0;
                 }
-                .cell-z {
-                    font-size: 1.15rem;
+                .cell-coord {
+                    font-size: 1.05rem;
                 }
                 .hero-stat-card {
                     padding: 16px;
@@ -2748,8 +2750,8 @@
 
                         cellEl.innerHTML = `
             ${item.isZero ? '<span class="cell-zero-marker" title="Base-10 value is 0 (unrepresentable in unary)">∅</span>' : ""}
-            <div class="cell-coord">${tex(`(${item.k1}, ${item.k2})`)}</div>
             <div class="cell-z">${item.z}</div>
+            <div class="cell-coord">${tex(`(${item.k1}, ${item.k2})`)}</div>
             <div class="cell-fraction">${tex(`\\frac{${item.a}}{${item.b}}`)}</div>
           `;
 
