@@ -3,13 +3,13 @@
 # [Unary Number System]
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Toroid
 
 ### Team Members
-- Team Lead: [Name] - [College]
+- Team Lead: Rahul Thekkevilakom Reji - Sree Chitra Thirunal College of Engineering - Pappanamcode
 
 ### Project Description
-[Creates an alternative number system that uses only 1 symbol]
+Creates an alternative number system that uses only 1 symbol, 1.
 
 ### The Problem (that doesn't exist)
 [The existing number systems are too efficient, so I am creating a new number system that is extremely inefficient and uses only one symbol]
@@ -67,6 +67,3 @@ Made with ❤️ at TinkerHub Useless Projects
 
 ![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
 ![Static Badge](https://img.shields.io/badge/UselessProjects--26-26?link=https%3A%2F%2Ftinkerhub.org%2Fevents%2F1M8ORET9A1%2Fuseless-projects-3.0)
-
-
-

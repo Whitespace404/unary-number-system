@@ -46,7 +46,14 @@
                 padding: 0;
             }
 
+            html {
+                overflow-x: hidden;
+                max-width: 100vw;
+            }
+
             body {
+                overflow-x: hidden;
+                max-width: 100vw;
                 font-family:
                     system-ui,
                     -apple-system,
@@ -572,14 +579,24 @@
                 display: block;
             }
 
-            /* Canvas High-Density Container */
-            #high-density-canvas {
-                width: 100%;
-                height: 160px;
+            /* Canvas High-Density Scroll Container */
+            .canvas-scroll-box {
                 display: none;
+                min-height: 130px;
+                max-height: 300px;
+                overflow-y: auto;
+                overflow-x: hidden;
                 background: #fafafa;
                 border: 2px dashed #cbd5e1;
                 border-radius: 12px;
+                padding: 12px 14px;
+                position: relative;
+                scrollbar-width: thin;
+            }
+
+            #high-density-canvas {
+                display: block;
+                margin: 0 auto;
             }
 
             /* Section 2: Unary to Base-10 */
@@ -817,9 +834,11 @@
             }
 
             .tape-scroll {
+                position: relative;
                 display: flex;
                 gap: 8px;
                 overflow-x: auto;
+                max-width: 100%;
                 padding: 8px 4px 16px;
                 scrollbar-width: thin;
             }
@@ -890,6 +909,12 @@
                 font-size: 0.95rem;
                 color: #1e3a8a;
                 line-height: 1.7;
+                word-break: break-word;
+                overflow-wrap: anywhere;
+            }
+
+            .inspector-text code {
+                word-break: break-all;
             }
 
             /* Notice box */
@@ -904,6 +929,286 @@
                 display: flex;
                 align-items: flex-start;
                 gap: 12px;
+            }
+
+            /* Cantor Section Math Explainer */
+            .cantor-math-explainer {
+                background: #f8fafc;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                padding: 20px 24px;
+                margin-bottom: 20px;
+                color: #1e293b;
+                font-size: 0.96rem;
+                line-height: 1.75;
+            }
+
+            .cantor-math-explainer p {
+                margin-bottom: 12px;
+            }
+
+            .cantor-formula-block {
+                background: #ffffff;
+                border: 1.5px solid #cbd5e1;
+                border-radius: 10px;
+                padding: 12px 18px;
+                margin: 8px 0 14px;
+                overflow-x: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+            }
+
+            /* Section 0: Introduction to Unary */
+            .intro-section-desc {
+                color: #334155;
+                font-size: 1.02rem;
+                line-height: 1.65;
+                margin-bottom: 20px;
+            }
+
+            .intro-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 16px;
+                margin-bottom: 20px;
+            }
+
+            .intro-card {
+                background: #f8fafc;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius-md);
+                padding: 18px;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                transition:
+                    transform 0.15s ease,
+                    box-shadow 0.15s ease;
+            }
+
+            .intro-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+            }
+
+            .intro-card-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px;
+            }
+
+            .intro-card-title {
+                font-size: 0.95rem;
+                font-weight: 800;
+                color: #0f172a;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .intro-value-display {
+                background: #ffffff;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius-sm);
+                padding: 12px;
+                text-align: center;
+                min-height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family:
+                    ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+                font-size: 1.35rem;
+                font-weight: 900;
+                color: #0f172a;
+                word-break: break-all;
+                line-height: 1.3;
+            }
+
+            .intro-math-sub {
+                font-size: 0.82rem;
+                color: var(--text-muted);
+                line-height: 1.5;
+            }
+
+            /* Live Token Sandbox */
+            .token-sandbox {
+                background: #ffffff;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius-md);
+                padding: 18px;
+                margin-top: 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            .token-sandbox-title {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 0.9rem;
+                font-weight: 800;
+                color: #1e293b;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .token-row-wrap {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .token-row-label {
+                font-size: 0.8rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: #64748b;
+            }
+
+            .token-row {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 8px;
+                min-height: 48px;
+                background: #f8fafc;
+                border: 1.5px dashed #cbd5e1;
+                border-radius: 10px;
+                padding: 10px 14px;
+            }
+
+            .bouncy-dot {
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background: #3b82f6;
+                display: inline-block;
+                animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                box-shadow: 0 2px 5px rgba(59, 130, 246, 0.35);
+            }
+
+            @keyframes popIn {
+                0% {
+                    transform: scale(0);
+                    opacity: 0;
+                }
+                80% {
+                    transform: scale(1.25);
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+
+            /* Growth comparison bars */
+            .growth-container {
+                background: #ffffff;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius-md);
+                padding: 20px;
+                margin-top: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .growth-row {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .growth-row-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 0.85rem;
+                font-weight: 800;
+            }
+
+            .growth-bar-track {
+                width: 100%;
+                height: 24px;
+                background: #f1f5f9;
+                border-radius: 8px;
+                overflow: hidden;
+                position: relative;
+                border: 1.5px solid var(--border-color);
+            }
+
+            .growth-bar-fill {
+                height: 100%;
+                border-radius: 6px;
+                transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                font-size: 0.78rem;
+                font-weight: 800;
+                color: #fff;
+                white-space: nowrap;
+            }
+
+            /* 3-Step Bridge Pipeline */
+            .bridge-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 16px;
+                margin-top: 14px;
+            }
+
+            .bridge-step {
+                background: #ffffff;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius-md);
+                padding: 18px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                position: relative;
+            }
+
+            .bridge-step-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 0.82rem;
+                font-weight: 800;
+                color: #2563eb;
+            }
+
+            /* History & Theory Cards */
+            .history-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 16px;
+                margin-top: 16px;
+            }
+
+            .history-card {
+                background: #f8fafc;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius-md);
+                padding: 18px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .history-card-title {
+                font-size: 0.95rem;
+                font-weight: 800;
+                color: #0f172a;
+                display: flex;
+                align-items: center;
+                gap: 8px;
             }
 
             /* Responsive adjustments */
@@ -1140,8 +1445,10 @@
                         <!-- Populated live via JS -->
                     </div>
 
-                    <!-- High density canvas for ultra large values -->
-                    <canvas id="high-density-canvas"></canvas>
+                    <!-- High density canvas scroll container for ultra large values -->
+                    <div class="canvas-scroll-box" id="canvas-scroll-container">
+                        <canvas id="high-density-canvas"></canvas>
+                    </div>
 
                     <div
                         style="
@@ -1180,7 +1487,6 @@
                             >2</span
                         >
                         <h2>Unary to Base-10 Converter</h2>
-                        <span class="badge badge-green">Click or Paste 1s</span>
                     </div>
                     <span class="badge badge-gray" id="unary-input-len-badge"
                         >Length: 7 ones</span
@@ -1222,10 +1528,10 @@
                         +100 '1's
                     </button>
                     <button
-                        class="toy-btn sm amber"
+                        class="toy-btn sm primary"
                         onclick="addUnaryOnes(1000)"
                     >
-                        +1,000 '1's (High Value)
+                        +1,000 '1's
                     </button>
                     <button class="toy-btn sm" onclick="removeUnaryOne()">
                         ⌫ Backspace
@@ -1297,13 +1603,129 @@
                             >3</span
                         >
                         <h2 id="section-3-title">
-                            Cantor Pairing Visualizer: The 2D Grid to 1D Line
-                            Trick
+                            Cantor Pairing Visualizer: 2D Grid to 1D Line
                         </h2>
                     </div>
                     <span class="badge badge-purple" id="section-3-badge"
                         >Interactive Walk</span
                     >
+                </div>
+
+                <div class="cantor-math-explainer">
+                    <p>
+                        Any rational number <span id="tex-exp-frac"></span> can
+                        be uniquely represented in canonical irreducible form
+                        with coprime integers
+                        <span id="tex-exp-p-set"></span> and
+                        <span id="tex-exp-q-set"></span> (where
+                        <span id="tex-exp-q-nonzero"></span>
+                        <span id="tex-exp-grid-set"></span>, We first construct
+                        a bijective coordinate transformation
+                        <span id="tex-exp-pq-pair"></span> &rarr;
+                        <span id="tex-exp-k1k2-pair"></span>.
+                    </p>
+
+                    <div
+                        style="
+                            margin: 14px 0 8px;
+                            font-weight: 600;
+                            color: #0f172a;
+                        "
+                    >
+                        1. Coordinate
+                        <span id="tex-exp-k1-label"></span> (Numerator Mapping
+                        <span id="tex-exp-z-to-n0"></span>):
+                    </div>
+                    <p>
+                        The numerator <span id="tex-exp-p"></span> may be
+                        positive, zero, or negative (<span
+                            id="tex-exp-p-int"
+                        ></span
+                        >). To fold all integers onto non-negative indices
+                        <span id="tex-exp-n0-set"></span> without sign
+                        collisions, we interleave positive integers onto even
+                        values and negative integers onto odd values:
+                    </p>
+                    <div
+                        class="cantor-formula-block"
+                        id="tex-exp-k1-formula"
+                    ></div>
+
+                    <div
+                        style="
+                            margin: 14px 0 8px;
+                            font-weight: 600;
+                            color: #0f172a;
+                        "
+                    >
+                        2. Coordinate
+                        <span id="tex-exp-k2-label"></span> (Denominator Mapping
+                        <span id="tex-exp-n-to-n0"></span>):
+                    </div>
+                    <p>
+                        The denominator <span id="tex-exp-q"></span> is strictly
+                        positive (<span id="tex-exp-q-ge-1"></span>). Because
+                        division by zero is undefined, the value
+                        <span id="tex-exp-one"></span> corresponds to index 0 on
+                        the grid. We map <span id="tex-exp-q"></span> directly
+                        to a non-negative coordinate
+                        <span id="tex-exp-k2-nonneg"></span> by subtracting 1:
+                    </p>
+                    <div
+                        class="cantor-formula-block"
+                        id="tex-exp-k2-formula"
+                    ></div>
+
+                    <div
+                        style="
+                            margin: 14px 0 8px;
+                            font-weight: 600;
+                            color: #0f172a;
+                        "
+                    >
+                        3. Diagonal Traversal &amp; Cantor Index
+                        <span id="tex-exp-z-label"></span>:
+                    </div>
+                    <p>
+                        Having mapped any rational number to the lattice point
+                        <span id="tex-exp-k-pair-step3"></span>, where
+                        <span id="tex-exp-k1-step3"></span> and
+                        <span id="tex-exp-k2-step3"></span>, we determine its
+                        position along the anti-diagonal sum
+                        <span id="tex-exp-w-label"></span>:
+                    </p>
+                    <div
+                        class="cantor-formula-block"
+                        id="tex-exp-w-formula"
+                    ></div>
+                    <p>
+                        In the 2D Cartesian grid, all pairs with equal sum
+                        <span id="tex-exp-w-diag"></span> lie on the
+                        <span id="tex-exp-w-diag2"></span>-th anti-diagonal. The
+                        number of points strictly preceding diagonal
+                        <span id="tex-exp-w-preceding"></span> is the triangular
+                        number <span id="tex-exp-tw-label"></span>:
+                    </p>
+                    <div
+                        class="cantor-formula-block"
+                        id="tex-exp-tw-formula"
+                    ></div>
+                    <p>
+                        Traversing down the diagonal adds an offset of
+                        <span id="tex-exp-k2-offset"></span> steps, producing
+                        the canonical Cantor pairing index
+                        <span id="tex-exp-cantor-formula"></span>. Finally, in
+                        the unary number system,
+                        <span id="tex-exp-z-label-2"></span> is encoded as a
+                        tally sequence of exactly
+                        <span id="tex-exp-z-repeat"></span> ones (with
+                        <span id="tex-exp-z-zero"></span> representing the empty
+                        tally &epsilon;):
+                    </p>
+                    <div
+                        class="cantor-formula-block"
+                        id="tex-exp-frac-final"
+                    ></div>
                 </div>
 
                 <p
@@ -1318,9 +1740,7 @@
                     into a single 1D line index <code>z</code>. The default
                     <strong>2 &times; 2</strong> grid shows the fundamental
                     walk. You can expand up to <strong>5 &times; 5</strong>,
-                    click any cell, or press
-                    <strong>Play Diagonal Walk</strong> to watch the diagonal
-                    fold in real-time!
+                    click any cell, or press:
                 </p>
 
                 <!-- Controls -->
@@ -1339,7 +1759,7 @@
                             id="btn-grid-2"
                             onclick="setGridSize(2)"
                         >
-                            2 &times; 2 (Default)
+                            2 &times; 2
                         </button>
                         <button
                             class="toy-btn sm"
@@ -1501,6 +1921,9 @@
             const unaryCountBadge =
                 document.getElementById("unary-count-badge");
             const vizDisplayBox = document.getElementById("viz-display-box");
+            const canvasScrollContainer = document.getElementById(
+                "canvas-scroll-container",
+            );
             const highDensityCanvas = document.getElementById(
                 "high-density-canvas",
             );
@@ -1668,7 +2091,7 @@
             // Render the unary output with support for high values
             function renderUnaryOutput(z) {
                 vizDisplayBox.innerHTML = "";
-                highDensityCanvas.style.display = "none";
+                canvasScrollContainer.style.display = "none";
                 vizDisplayBox.style.display = "flex";
 
                 if (z === 0) {
@@ -1709,9 +2132,9 @@
                         vizSummaryText.innerText = `Rendered all ${z} individual circle tokens.`;
                     } else {
                         vizDisplayBox.style.display = "none";
-                        highDensityCanvas.style.display = "block";
+                        canvasScrollContainer.style.display = "block";
+                        canvasScrollContainer.scrollTop = 0;
                         renderCanvasDots(z);
-                        vizSummaryText.innerText = `Canvas mode: Rendering ${z.toLocaleString()} dots smoothly!`;
                     }
                 }
 
@@ -1742,11 +2165,9 @@
                         vizSummaryText.innerText = `${fullGroups} groups of 5 + ${remainder} single(s) = ${z} tally marks.`;
                     } else {
                         vizDisplayBox.style.display = "none";
-                        highDensityCanvas.style.display = "block";
+                        canvasScrollContainer.style.display = "block";
+                        canvasScrollContainer.scrollTop = 0;
                         renderCanvasTallies(z);
-                        const fullGroups = Math.floor(z / 5);
-                        const remainder = z % 5;
-                        vizSummaryText.innerText = `High-density canvas: ${fullGroups.toLocaleString()} groups of 5 + ${remainder} singles = ${z.toLocaleString()} tallies!`;
                     }
                 }
             }
@@ -1765,86 +2186,164 @@
                 return `<svg class="tally-svg" viewBox="0 0 30 28" width="30" height="28">${lines}</svg>`;
             }
 
-            // High performance canvas renderer for dots
+            // High performance canvas renderer for dots with vertical scrolling
             function renderCanvasDots(total) {
                 const canvas = highDensityCanvas;
+                const container = canvasScrollContainer;
                 const ctx = canvas.getContext("2d");
                 const dpr = window.devicePixelRatio || 1;
-                const rect = canvas.getBoundingClientRect();
-                canvas.width = rect.width * dpr;
-                canvas.height = rect.height * dpr;
-                ctx.scale(dpr, dpr);
 
-                ctx.clearRect(0, 0, rect.width, rect.height);
+                const rect = container.getBoundingClientRect();
+                const width = Math.max(
+                    280,
+                    Math.floor(rect.width ? rect.width - 32 : 800),
+                );
+
+                let dotRadius = 2.5;
+                let gap = 8;
+                if (total > 20000) {
+                    dotRadius = 1.2;
+                    gap = 4;
+                } else if (total > 5000) {
+                    dotRadius = 1.8;
+                    gap = 5.5;
+                } else if (total > 1000) {
+                    dotRadius = 2.2;
+                    gap = 6.5;
+                }
+
+                const cols = Math.max(1, Math.floor(width / gap));
+                const toDraw = Math.min(total, 50000);
+                const totalRows = Math.ceil(toDraw / cols);
+                const totalHeight = Math.max(160, totalRows * gap + 20);
+
+                canvas.style.width = `${width}px`;
+                canvas.style.height = `${totalHeight}px`;
+
+                canvas.width = Math.floor(width * dpr);
+                canvas.height = Math.floor(totalHeight * dpr);
+
+                ctx.save();
+                ctx.scale(dpr, dpr);
+                ctx.clearRect(0, 0, width, totalHeight);
                 ctx.fillStyle = "#3b82f6";
 
-                const dotSize = Math.max(
-                    2,
-                    Math.min(
-                        6,
-                        Math.sqrt((rect.width * rect.height) / (total * 2)),
-                    ),
-                );
-                const gap = dotSize + 2;
-                const cols = Math.floor(rect.width / gap);
-
-                const toDraw = Math.min(total, 25000);
+                ctx.beginPath();
                 for (let i = 0; i < toDraw; i++) {
                     const col = i % cols;
                     const row = Math.floor(i / cols);
                     const x = col * gap + gap / 2;
-                    const y = row * gap + gap / 2;
-                    if (y > rect.height) break;
-                    ctx.beginPath();
-                    ctx.arc(x, y, dotSize / 2, 0, Math.PI * 2);
-                    ctx.fill();
+                    const y = row * gap + gap / 2 + 10;
+                    ctx.moveTo(x + dotRadius, y);
+                    ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
+                }
+                ctx.fill();
+                ctx.restore();
+
+                const isScrollable = totalHeight > 280;
+                if (isScrollable) {
+                    if (total > toDraw) {
+                        vizSummaryText.innerText = `High-density canvas: Showing first ${toDraw.toLocaleString()} of ${total.toLocaleString()} dots (${totalRows.toLocaleString()} rows). Scroll down to explore!`;
+                    } else {
+                        vizSummaryText.innerText = `High-density canvas: Rendering all ${total.toLocaleString()} dots smoothly (${totalRows.toLocaleString()} rows). Scroll down to view all!`;
+                    }
+                } else {
+                    vizSummaryText.innerText = `High-density canvas: Rendering all ${total.toLocaleString()} dots smoothly!`;
                 }
             }
 
-            // High performance canvas renderer for tallies
+            // High performance canvas renderer for tallies with vertical scrolling
             function renderCanvasTallies(total) {
                 const canvas = highDensityCanvas;
+                const container = canvasScrollContainer;
                 const ctx = canvas.getContext("2d");
                 const dpr = window.devicePixelRatio || 1;
-                const rect = canvas.getBoundingClientRect();
-                canvas.width = rect.width * dpr;
-                canvas.height = rect.height * dpr;
-                ctx.scale(dpr, dpr);
 
-                ctx.clearRect(0, 0, rect.width, rect.height);
+                const rect = container.getBoundingClientRect();
+                const width = Math.max(
+                    280,
+                    Math.floor(rect.width ? rect.width - 32 : 800),
+                );
 
                 const groupW = 20;
                 const groupH = 18;
-                const cols = Math.floor(rect.width / (groupW + 4));
+                const strideX = groupW + 6;
+                const strideY = groupH + 8;
+                const cols = Math.max(1, Math.floor(width / strideX));
+
                 const fullGroups = Math.floor(total / 5);
                 const remainder = total % 5;
+                const totalItems = fullGroups + (remainder > 0 ? 1 : 0);
 
-                const maxGroupsToDraw = Math.min(fullGroups, 1200);
+                const maxItems = Math.min(totalItems, 5000);
+                const toDrawGroups = Math.min(fullGroups, maxItems);
+                const drawRemainder = remainder > 0 && maxItems > fullGroups;
 
-                ctx.lineWidth = 1.5;
+                const totalRows = Math.ceil(maxItems / cols);
+                const totalHeight = Math.max(160, totalRows * strideY + 20);
+
+                canvas.style.width = `${width}px`;
+                canvas.style.height = `${totalHeight}px`;
+
+                canvas.width = Math.floor(width * dpr);
+                canvas.height = Math.floor(totalHeight * dpr);
+
+                ctx.save();
+                ctx.scale(dpr, dpr);
+                ctx.clearRect(0, 0, width, totalHeight);
+                ctx.lineWidth = 1.8;
                 ctx.lineCap = "round";
 
-                for (let i = 0; i < maxGroupsToDraw; i++) {
+                // 1. Draw all vertical strokes (black) in ONE batched stroke
+                ctx.strokeStyle = "#1e293b";
+                ctx.beginPath();
+                for (let i = 0; i < toDrawGroups; i++) {
                     const c = i % cols;
                     const r = Math.floor(i / cols);
-                    const gx = c * (groupW + 4) + 4;
-                    const gy = r * (groupH + 4) + 4;
-                    if (gy > rect.height) break;
-
-                    ctx.strokeStyle = "#1e293b";
+                    const gx = c * strideX + 6;
+                    const gy = r * strideY + 10;
                     for (let b = 0; b < 4; b++) {
                         const bx = gx + b * 4;
-                        ctx.beginPath();
                         ctx.moveTo(bx, gy);
                         ctx.lineTo(bx, gy + groupH);
-                        ctx.stroke();
                     }
+                }
+                if (drawRemainder) {
+                    const c = toDrawGroups % cols;
+                    const r = Math.floor(toDrawGroups / cols);
+                    const gx = c * strideX + 6;
+                    const gy = r * strideY + 10;
+                    for (let b = 0; b < remainder; b++) {
+                        const bx = gx + b * 4;
+                        ctx.moveTo(bx, gy);
+                        ctx.lineTo(bx, gy + groupH);
+                    }
+                }
+                ctx.stroke();
 
-                    ctx.strokeStyle = "#ef4444";
-                    ctx.beginPath();
+                // 2. Draw all diagonal slashes (red) in ONE batched stroke
+                ctx.strokeStyle = "#ef4444";
+                ctx.beginPath();
+                for (let i = 0; i < toDrawGroups; i++) {
+                    const c = i % cols;
+                    const r = Math.floor(i / cols);
+                    const gx = c * strideX + 6;
+                    const gy = r * strideY + 10;
                     ctx.moveTo(gx - 2, gy + groupH - 2);
                     ctx.lineTo(gx + 14, gy + 2);
-                    ctx.stroke();
+                }
+                ctx.stroke();
+                ctx.restore();
+
+                const isScrollable = totalHeight > 280;
+                if (isScrollable) {
+                    if (totalItems > maxItems) {
+                        vizSummaryText.innerText = `High-density canvas: Showing first ${(maxItems * 5).toLocaleString()} of ${total.toLocaleString()} tallies (${totalRows.toLocaleString()} rows). Scroll down to explore!`;
+                    } else {
+                        vizSummaryText.innerText = `High-density canvas: ${fullGroups.toLocaleString()} groups of 5 + ${remainder} single(s) = ${total.toLocaleString()} tallies (${totalRows.toLocaleString()} rows). Scroll down to view all!`;
+                    }
+                } else {
+                    vizSummaryText.innerText = `High-density canvas: ${fullGroups.toLocaleString()} groups of 5 + ${remainder} single(s) = ${total.toLocaleString()} tallies!`;
                 }
             }
 
@@ -2096,10 +2595,9 @@
           `;
 
                         cellEl.addEventListener("mouseenter", () =>
-                            inspectCell(item),
+                            inspectCell(item, { scrollTape: true }),
                         );
                         cellEl.addEventListener("click", () => {
-                            inspectCell(item);
                             jumpWalkTo(item.z);
                         });
 
@@ -2185,10 +2683,9 @@
         `;
 
                     tapeCell.addEventListener("mouseenter", () =>
-                        inspectCell(item),
+                        inspectCell(item, { scrollTape: false }),
                     );
                     tapeCell.addEventListener("click", () => {
-                        inspectCell(item);
                         jumpWalkTo(item.z);
                     });
 
@@ -2196,8 +2693,38 @@
                 });
             }
 
+            // Safely scrolls the 1D tape container only, without affecting page/window scroll
+            function scrollTapeToCell(tapeEl) {
+                if (!tapeEl || !tapeContainer) return;
+
+                const containerRect = tapeContainer.getBoundingClientRect();
+                const cellRect = tapeEl.getBoundingClientRect();
+
+                // Check if cell is already comfortably visible within tapeContainer's horizontal view
+                const isVisible =
+                    cellRect.left >= containerRect.left + 8 &&
+                    cellRect.right <= containerRect.right - 8;
+
+                // If already visible, do not scroll
+                if (isVisible) return;
+
+                // Scroll ONLY tapeContainer horizontally to center the cell
+                const relativeLeft =
+                    tapeContainer.scrollLeft +
+                    (cellRect.left - containerRect.left);
+                const targetScrollLeft =
+                    relativeLeft -
+                    (tapeContainer.clientWidth - cellRect.width) / 2;
+
+                tapeContainer.scrollTo({
+                    left: Math.max(0, targetScrollLeft),
+                    behavior: "smooth",
+                });
+            }
+
             // Display cell details in inspector with LaTeX
-            function inspectCell(item) {
+            function inspectCell(item, options = {}) {
+                const { scrollTape = false } = options;
                 const unaryStr = toUnary(item.z);
                 inspectorContent.innerHTML = `
         <span><strong>Cell:</strong> ${tex(`(k_1, k_2) = (${item.k1}, ${item.k2})`)}</span> &bull;
@@ -2215,11 +2742,9 @@
                 const tapeEl = document.getElementById(`tape-slot-${item.z}`);
                 if (tapeEl) {
                     tapeEl.classList.add("active");
-                    tapeEl.scrollIntoView({
-                        behavior: "smooth",
-                        block: "nearest",
-                        inline: "center",
-                    });
+                    if (scrollTape) {
+                        scrollTapeToCell(tapeEl);
+                    }
                 }
             }
 
@@ -2301,7 +2826,7 @@
                 }
 
                 drawSnakePath();
-                inspectCell(target);
+                inspectCell(target, { scrollTape: true });
             }
 
             // Render LaTeX into static titles and footer
@@ -2315,21 +2840,308 @@
                 document.getElementById("title-unpair-b").innerHTML =
                     `Recovering Numerator & Denominator`;
                 document.getElementById("section-3-title").innerHTML =
-                    `Cantor Pairing Visualizer: ${tex("\\mathbb{N}_0 \\times \\mathbb{N}_0 \\to \\mathbb{N}_0")} (The 2D Grid to 1D Line Trick)`;
+                    `Cantor Pairing Visualizer: ${tex("\\mathbb{N}_0 \\times \\mathbb{N}_0 \\to \\mathbb{N}_0")}`;
 
-                const formulaBanner = tex(
-                    "\\pi(k_1, k_2) = \\frac{(k_1 + k_2)(k_1 + k_2 + 1)}{2} + k_2 = z",
+                const cantorExpMap = {
+                    "tex-exp-frac": tex("x = \\frac{p}{q} \\in \\mathbb{Q}"),
+                    "tex-exp-p-set": tex("p \\in \\mathbb{Z}"),
+                    "tex-exp-q-set": tex("q \\in \\mathbb{N}"),
+                    "tex-exp-q-nonzero": tex("q \\ge 1"),
+                    "tex-exp-grid-set": tex(
+                        "\\mathbb{N}_0 \\times \\mathbb{N}_0",
+                    ),
+                    "tex-exp-pq-pair": tex("(p, q)"),
+                    "tex-exp-k1k2-pair": tex(
+                        "(k_1, k_2) \\in \\mathbb{N}_0 \\times \\mathbb{N}_0",
+                    ),
+                    "tex-exp-k1-label": tex("k_1"),
+                    "tex-exp-z-to-n0": tex("\\mathbb{Z} \\to \\mathbb{N}_0"),
+                    "tex-exp-p": tex("p"),
+                    "tex-exp-p-int": tex("p \\in \\mathbb{Z}"),
+                    "tex-exp-n0-set": tex(
+                        "\\mathbb{N}_0 = \\{0, 1, 2, \\dots\\}",
+                    ),
+                    "tex-exp-k1-formula": tex(
+                        "k_1 = \\begin{cases} 2p, & \\text{if } p > 0 \\quad (1 \\mapsto 2,\\, 2 \\mapsto 4,\\, 3 \\mapsto 6, \\dots) \\\\[4pt] 0, & \\text{if } p = 0 \\\\[4pt] -2p + 1, & \\text{if } p < 0 \\quad (-1 \\mapsto 3,\\, -2 \\mapsto 5,\\, -3 \\mapsto 7, \\dots) \\end{cases}",
+                        true,
+                    ),
+                    "tex-exp-k2-label": tex("k_2"),
+                    "tex-exp-n-to-n0": tex("\\mathbb{N} \\to \\mathbb{N}_0"),
+                    "tex-exp-q": tex("q"),
+                    "tex-exp-q-ge-1": tex("q \\ge 1"),
+                    "tex-exp-one": tex("q = 1"),
+                    "tex-exp-k2-nonneg": tex("k_2 \\in \\mathbb{N}_0"),
+                    "tex-exp-k2-formula": tex(
+                        "k_2 = q - 1 \\quad \\Longleftrightarrow \\quad q = k_2 + 1 \\quad (q \\in \\{1, 2, 3, \\dots\\} \\mapsto k_2 \\in \\{0, 1, 2, \\dots\\})",
+                        true,
+                    ),
+                    "tex-exp-z-label": tex("z"),
+                    "tex-exp-k-pair-step3": tex("(k_1, k_2)"),
+                    "tex-exp-k1-step3": tex("k_1 \\ge 0"),
+                    "tex-exp-k2-step3": tex("k_2 \\ge 0"),
+                    "tex-exp-w-label": tex("w = k_1 + k_2"),
+                    "tex-exp-w-formula": tex(
+                        "w = k_1 + k_2 \\in \\mathbb{N}_0",
+                        true,
+                    ),
+                    "tex-exp-w-diag": tex("k_1 + k_2 = w"),
+                    "tex-exp-w-diag2": tex("w"),
+                    "tex-exp-w-preceding": tex("w"),
+                    "tex-exp-tw-label": tex("T_w"),
+                    "tex-exp-tw-formula": tex(
+                        "T_w = \\sum_{i=0}^{w} i = \\frac{w(w + 1)}{2} = \\frac{(k_1 + k_2)(k_1 + k_2 + 1)}{2}",
+                        true,
+                    ),
+                    "tex-exp-k2-offset": tex("k_2"),
+                    "tex-exp-cantor-formula": tex(
+                        "z = \\pi(k_1, k_2) = T_w + k_2 = \\frac{(k_1 + k_2)(k_1 + k_2 + 1)}{2} + k_2",
+                    ),
+                    "tex-exp-z-label-2": tex("z"),
+                    "tex-exp-z-repeat": tex("z"),
+                    "tex-exp-z-zero": tex("z = 0"),
+                    "tex-exp-frac-final": tex(
+                        "\\frac{p}{q} \\;\\longleftrightarrow\\; (k_1, k_2) \\;\\overset{\\pi}{\\longleftrightarrow}\\; z \\;\\longleftrightarrow\\; \\underbrace{11\\cdots1}_{z\\text{ times}}",
+                        true,
+                    ),
+                };
+
+                for (const [id, rendered] of Object.entries(cantorExpMap)) {
+                    const el = document.getElementById(id);
+                    if (el) el.innerHTML = rendered;
+                }
+            }
+
+            /* ==========================================================
+               SECTION 0: INTRO TO UNARY CONTROLLER & VISUALIZATIONS
+               ========================================================== */
+            let currentIntroVal = 5;
+            let currentGrowthN = 1000;
+
+            function setIntroVal(val) {
+                currentIntroVal = Math.max(0, Math.min(15, val));
+                const slider = document.getElementById("intro-slider");
+                if (slider) slider.value = currentIntroVal;
+                updateSection0(currentIntroVal);
+            }
+
+            function stepIntroVal(delta) {
+                setIntroVal(currentIntroVal + delta);
+            }
+
+            function updateSection0(val) {
+                const badge = document.getElementById("intro-active-val-badge");
+                if (badge) badge.innerText = `Current: ${val}`;
+
+                // 1. Base-10 Card
+                const decDisplay = document.getElementById("intro-dec-display");
+                const decFormula = document.getElementById("intro-dec-formula");
+                const decLenText =
+                    document.getElementById("intro-dec-len-text");
+                const decStr = val.toString(10);
+                if (decDisplay) decDisplay.innerText = decStr;
+                if (decFormula) decFormula.innerText = `${val} × 10⁰`;
+                if (decLenText)
+                    decLenText.innerText = `Length: ${decStr.length} digit${decStr.length === 1 ? "" : "s"}`;
+
+                // 2. Base-2 Card
+                const binDisplay = document.getElementById("intro-bin-display");
+                const binFormula = document.getElementById("intro-bin-formula");
+                const binLenText =
+                    document.getElementById("intro-bin-len-text");
+                const binStr = val.toString(2);
+                if (binDisplay)
+                    binDisplay.innerHTML = `${binStr}<sub style="font-size:0.7em;">2</sub>`;
+                if (binFormula) {
+                    if (val === 0) {
+                        binFormula.innerText = "0 × 2⁰";
+                    } else {
+                        const powers = [];
+                        for (let i = 0; i < binStr.length; i++) {
+                            const power = binStr.length - 1 - i;
+                            const bit = binStr[i];
+                            if (bit === "1") powers.push(`1×2^${power}`);
+                        }
+                        binFormula.innerHTML = powers
+                            .map((p) => {
+                                const [coeff, pow] = p.split("^");
+                                return `${coeff}<sup>${pow}</sup>`;
+                            })
+                            .join(" + ");
+                    }
+                }
+                if (binLenText)
+                    binLenText.innerText = `Length: ${binStr.length} bit${binStr.length === 1 ? "" : "s"}`;
+
+                // 3. Base-1 Card
+                const unaryDisplay = document.getElementById(
+                    "intro-unary-display",
                 );
-                document.getElementById("info-footer-text").innerHTML = `
-        <strong>Why does this work?</strong> Cantor's pairing function ${formulaBanner} is a bijective mapping between ${tex("\\mathbb{N}_0 \\times \\mathbb{N}_0")} and ${tex("\\mathbb{N}_0")}.
-        By first mapping any integer numerator into ${tex("\\mathbb{N}_0")} and denominator into ${tex("\\mathbb{N}_0")}, every rational fraction is guaranteed a unique natural number index <strong>z</strong>.
-        Repeating the symbol <code>'1'</code> exactly <strong>z</strong> times gives a complete unary number system!
-      `;
+                const unaryFormula = document.getElementById(
+                    "intro-unary-formula",
+                );
+                const unaryLenText = document.getElementById(
+                    "intro-unary-len-text",
+                );
+                if (unaryDisplay) {
+                    unaryDisplay.innerText =
+                        val === 0 ? "∅ (empty string)" : "1".repeat(val);
+                }
+                if (unaryFormula) {
+                    if (val === 0) {
+                        unaryFormula.innerText = "Count = 0 (empty string)";
+                    } else {
+                        unaryFormula.innerText = `${Array(val).fill("1").join(" + ")} = ${val}`;
+                    }
+                }
+                if (unaryLenText)
+                    unaryLenText.innerText = `Length: ${val} mark${val === 1 ? "" : "s"}`;
+
+                // 4. Token Sandbox - Dots
+                const dotsRow = document.getElementById("intro-dots-row");
+                const tokenCountLabel = document.getElementById(
+                    "intro-token-count-label",
+                );
+                if (tokenCountLabel)
+                    tokenCountLabel.innerText = `${val} token${val === 1 ? "" : "s"}`;
+                if (dotsRow) {
+                    dotsRow.innerHTML = "";
+                    if (val === 0) {
+                        dotsRow.innerHTML = `<span style="font-size:0.85rem; color:#94a3b8; font-style:italic;">No dots (value is 0)</span>`;
+                    } else {
+                        for (let i = 0; i < val; i++) {
+                            const dot = document.createElement("span");
+                            dot.className = "bouncy-dot";
+                            dot.title = `Token #${i + 1}`;
+                            dotsRow.appendChild(dot);
+                        }
+                    }
+                }
+
+                // 5. Token Sandbox - Tallies
+                const talliesRow = document.getElementById("intro-tallies-row");
+                if (talliesRow) {
+                    talliesRow.innerHTML = "";
+                    if (val === 0) {
+                        talliesRow.innerHTML = `<span style="font-size:0.85rem; color:#94a3b8; font-style:italic;">No tallies (value is 0)</span>`;
+                    } else {
+                        const fullGroups = Math.floor(val / 5);
+                        const rem = val % 5;
+                        for (let i = 0; i < fullGroups; i++) {
+                            const tWrap = document.createElement("span");
+                            tWrap.className = "tally-group";
+                            tWrap.innerHTML = generateTallySVG(5);
+                            tWrap.title = "Tally 5-group";
+                            talliesRow.appendChild(tWrap);
+                        }
+                        if (rem > 0) {
+                            const tWrap = document.createElement("span");
+                            tWrap.className = "tally-group";
+                            tWrap.innerHTML = generateTallySVG(rem);
+                            tWrap.title = `Remaining ${rem} tally mark(s)`;
+                            talliesRow.appendChild(tWrap);
+                        }
+                    }
+                }
+            }
+
+            function setGrowthComparison(N) {
+                currentGrowthN = N;
+                const decLen = N.toString().length;
+                const binLen = N.toString(2).length;
+                const unLen = N;
+
+                // Visual scaling: we want Base-1 to show clearly as vastly larger
+                const decWidthPercent = Math.max(
+                    6,
+                    Math.min(
+                        100,
+                        Math.round((decLen / Math.max(unLen, 5)) * 100),
+                    ),
+                );
+                const binWidthPercent = Math.max(
+                    10,
+                    Math.min(
+                        100,
+                        Math.round((binLen / Math.max(unLen, 5)) * 100),
+                    ),
+                );
+
+                const decValEl = document.getElementById("growth-dec-len-val");
+                const binValEl = document.getElementById("growth-bin-len-val");
+                const unValEl = document.getElementById("growth-unary-len-val");
+
+                const decBar = document.getElementById("growth-dec-bar");
+                const binBar = document.getElementById("growth-bin-bar");
+                const unBar = document.getElementById("growth-unary-bar");
+
+                const decLabel = document.getElementById(
+                    "growth-dec-bar-label",
+                );
+                const binLabel = document.getElementById(
+                    "growth-bin-bar-label",
+                );
+                const unLabel = document.getElementById(
+                    "growth-unary-bar-label",
+                );
+
+                if (decValEl)
+                    decValEl.innerText = `${decLen.toLocaleString()} digit${decLen === 1 ? "" : "s"}`;
+                if (binValEl)
+                    binValEl.innerText = `${binLen.toLocaleString()} bit${binLen === 1 ? "" : "s"}`;
+                if (unValEl) {
+                    const ratio = Math.round(unLen / decLen);
+                    unValEl.innerText = `${unLen.toLocaleString()} marks (${ratio > 1 ? `${ratio}× longer than Base-10!` : "identical length"})`;
+                }
+
+                if (decBar) decBar.style.width = `${decWidthPercent}%`;
+                if (binBar) binBar.style.width = `${binWidthPercent}%`;
+                if (unBar) unBar.style.width = `100%`;
+
+                if (decLabel)
+                    decLabel.innerText = `${decLen} char${decLen === 1 ? "" : "s"}`;
+                if (binLabel) binLabel.innerText = `${binLen} chars`;
+                if (unLabel)
+                    unLabel.innerText = `${unLen.toLocaleString()} chars (Linear!)`;
+            }
+
+            function renderSection0Latex() {
+                const map = {
+                    "tex-intro-binary-powers": tex("2^3, 2^2, 2^1, 2^0"),
+                    "tex-intro-ologn": tex("\\mathcal{O}(\\log_b N)"),
+                    "tex-intro-on": tex("\\mathcal{O}(N)"),
+                    "tex-intro-nats": tex(
+                        "\\mathbb{N}_0 = \\{0, 1, 2, \\dots\\}",
+                    ),
+                    "tex-intro-neg-frac": tex("-\\frac{1}{2}"),
+                    "tex-intro-z-to-n": tex("\\mathbb{Z} \\to \\mathbb{N}_0"),
+                    "tex-intro-fold-pos": tex("a > 0 \\implies k_1 = 2a"),
+                    "tex-intro-fold-neg": tex("a < 0 \\implies k_1 = -2a + 1"),
+                    "tex-intro-grid-to-line": tex(
+                        "\\mathbb{N}_0 \\times \\mathbb{N}_0 \\to \\mathbb{N}_0",
+                    ),
+                    "tex-intro-k-pair": tex("(k_1, k_2)"),
+                    "tex-intro-z-index": tex("z = \\pi(k_1, k_2)"),
+                    "tex-intro-ones-z": tex("'1'"),
+                    "tex-intro-z-times": tex("z"),
+                    "tex-intro-rationals": tex("\\mathbb{Q}"),
+                };
+
+                for (const [id, rendered] of Object.entries(map)) {
+                    const el = document.getElementById(id);
+                    if (el) el.innerHTML = rendered;
+                }
+            }
+
+            function initSection0() {
+                renderSection0Latex();
+                setIntroVal(5);
+                setGrowthComparison(1000);
             }
 
             // Initialize all sections
             function initAll() {
                 renderStaticLatex();
+                initSection0();
                 setBase10(1, 2);
                 updateUnaryToBase10();
                 setGridSize(2);
@@ -2337,7 +3149,12 @@
             }
 
             window.addEventListener("DOMContentLoaded", initAll);
-            window.addEventListener("resize", () => drawSnakePath());
+            window.addEventListener("resize", () => {
+                drawSnakePath();
+                if (currentVizMode === "dots" || currentVizMode === "tally") {
+                    updateBase10ToUnary();
+                }
+            });
         </script>
     </body>
 </html>
