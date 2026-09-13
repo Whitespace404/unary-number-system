@@ -1,1 +1,2343 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Unary Number System & Cantor Pairing Playground</title>
 
+        <!-- KaTeX for LaTeX-style Math Rendering -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+        <style>
+            :root {
+                --bg: #f8fafc;
+                --card-bg: #ffffff;
+                --text-main: #0f172a;
+                --text-muted: #64748b;
+                --border-color: #e2e8f0;
+                --border-strong: #cbd5e1;
+                --primary: #2563eb;
+                --primary-dark: #1d4ed8;
+                --primary-light: #eff6ff;
+                --accent: #10b981;
+                --accent-dark: #059669;
+                --accent-light: #ecfdf5;
+                --amber: #f59e0b;
+                --amber-dark: #d97706;
+                --amber-light: #fffbeb;
+                --purple: #8b5cf6;
+                --purple-dark: #7c3aed;
+                --purple-light: #f5f3ff;
+                --rose: #f43f5e;
+                --rose-light: #fff1f2;
+                --radius-sm: 8px;
+                --radius-md: 14px;
+                --radius-lg: 20px;
+                --radius-xl: 24px;
+            }
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    Roboto,
+                    "Fredoka",
+                    sans-serif;
+                background-color: var(--bg);
+                color: var(--text-main);
+                line-height: 1.5;
+                padding: 36px 16px 80px;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            .container {
+                max-width: 960px;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                gap: 36px;
+            }
+
+            /* Header */
+            header {
+                text-align: center;
+                padding: 8px 0;
+            }
+
+            .pill-tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 6px 16px;
+                border-radius: 9999px;
+                font-size: 0.85rem;
+                font-weight: 800;
+                background: #e0f2fe;
+                color: #0369a1;
+                border: 1.5px solid #bae6fd;
+                margin-bottom: 14px;
+                box-shadow: 0 2px 6px rgba(3, 105, 161, 0.08);
+            }
+
+            h1 {
+                font-size: clamp(2rem, 5vw, 2.75rem);
+                font-weight: 900;
+                letter-spacing: -0.03em;
+                color: #0f172a;
+                margin-bottom: 10px;
+                line-height: 1.15;
+            }
+
+            .header-desc {
+                color: var(--text-muted);
+                font-size: 1.05rem;
+                max-width: 680px;
+                margin: 0 auto;
+                line-height: 1.6;
+            }
+
+            /* Cards (neal.fun playful style) */
+            .card {
+                background: var(--card-bg);
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius-xl);
+                padding: 28px;
+                box-shadow: 0 6px 24px rgba(15, 23, 42, 0.04);
+                position: relative;
+            }
+
+            .card-header {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 20px;
+                padding-bottom: 16px;
+                border-bottom: 2px solid #f1f5f9;
+            }
+
+            .card-title-group {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+
+            .section-badge {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 36px;
+                height: 36px;
+                border-radius: 12px;
+                font-weight: 900;
+                font-size: 1.1rem;
+                background: var(--primary);
+                color: #fff;
+                box-shadow: 0 3px 0 var(--primary-dark);
+            }
+
+            h2 {
+                font-size: 1.35rem;
+                font-weight: 800;
+                letter-spacing: -0.02em;
+                color: #0f172a;
+            }
+
+            /* Playful Neal.fun Chunky Tactile Buttons */
+            .toy-btn {
+                font-family: inherit;
+                font-size: 0.92rem;
+                font-weight: 800;
+                padding: 9px 16px;
+                border-radius: 12px;
+                border: 2px solid var(--border-strong);
+                border-bottom: 4px solid #94a3b8;
+                background: #ffffff;
+                color: #1e293b;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+                user-select: none;
+                transition:
+                    transform 0.08s ease,
+                    background-color 0.15s ease,
+                    border-color 0.15s ease;
+            }
+
+            .toy-btn:hover {
+                background: #f8fafc;
+                transform: translateY(-1px);
+            }
+
+            .toy-btn:active {
+                transform: translateY(2px);
+                border-bottom-width: 2px;
+            }
+
+            .toy-btn.primary {
+                background: var(--primary);
+                color: #fff;
+                border-color: var(--primary);
+                border-bottom-color: var(--primary-dark);
+            }
+            .toy-btn.primary:hover {
+                background: #1d4ed8;
+            }
+
+            .toy-btn.accent {
+                background: var(--accent);
+                color: #fff;
+                border-color: var(--accent);
+                border-bottom-color: var(--accent-dark);
+            }
+            .toy-btn.accent:hover {
+                background: #059669;
+            }
+
+            .toy-btn.amber {
+                background: var(--amber);
+                color: #fff;
+                border-color: var(--amber);
+                border-bottom-color: var(--amber-dark);
+            }
+            .toy-btn.amber:hover {
+                background: #d97706;
+            }
+
+            .toy-btn.purple {
+                background: var(--purple);
+                color: #fff;
+                border-color: var(--purple);
+                border-bottom-color: var(--purple-dark);
+            }
+            .toy-btn.purple:hover {
+                background: #7c3aed;
+            }
+
+            .toy-btn.sm {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+                border-radius: 10px;
+                border-bottom-width: 3px;
+            }
+
+            /* Badges */
+            .badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                padding: 4px 10px;
+                border-radius: 9999px;
+                font-size: 0.8rem;
+                font-weight: 800;
+            }
+            .badge-blue {
+                background: #dbeafe;
+                color: #1e40af;
+                border: 1px solid #bfdbfe;
+            }
+            .badge-green {
+                background: #dcfce7;
+                color: #166534;
+                border: 1px solid #bbf7d0;
+            }
+            .badge-amber {
+                background: #fef3c7;
+                color: #92400e;
+                border: 1px solid #fde68a;
+            }
+            .badge-purple {
+                background: #f3e8ff;
+                color: #6b21a8;
+                border: 1px solid #e9d5ff;
+            }
+            .badge-rose {
+                background: #ffe4e6;
+                color: #9f1239;
+                border: 1px solid #fecdd3;
+            }
+            .badge-gray {
+                background: #f1f5f9;
+                color: #475569;
+                border: 1px solid #e2e8f0;
+            }
+
+            /* Inputs */
+            .input-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 16px;
+                margin-bottom: 16px;
+                align-items: flex-end;
+            }
+
+            .form-group {
+                flex: 1 1 200px;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            label {
+                font-size: 0.88rem;
+                font-weight: 800;
+                color: #334155;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px;
+            }
+
+            .toy-input {
+                width: 100%;
+                padding: 10px 14px;
+                font-size: 1.1rem;
+                font-weight: 800;
+                font-family: inherit;
+                color: #0f172a;
+                background: #ffffff;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius-md);
+                transition:
+                    border-color 0.15s ease,
+                    box-shadow 0.15s ease;
+            }
+
+            .toy-input:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.14);
+            }
+
+            .stepper-wrap {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .stepper-btn {
+                width: 44px;
+                height: 44px;
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.3rem;
+                font-weight: 900;
+                border-radius: 12px;
+                border: 2px solid var(--border-strong);
+                border-bottom: 3px solid #94a3b8;
+                background: #ffffff;
+                cursor: pointer;
+                user-select: none;
+                transition: all 0.1s ease;
+            }
+            .stepper-btn:hover {
+                background: #f8fafc;
+            }
+            .stepper-btn:active {
+                transform: translateY(2px);
+                border-bottom-width: 1px;
+            }
+
+            .preset-pills {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 20px;
+                align-items: center;
+            }
+
+            .preset-pill {
+                font-size: 0.85rem;
+                font-weight: 800;
+                padding: 5px 12px;
+                border-radius: 10px;
+                background: #f1f5f9;
+                border: 1.5px solid #e2e8f0;
+                color: #334155;
+                cursor: pointer;
+                transition: all 0.1s ease;
+            }
+            .preset-pill:hover {
+                background: #e2e8f0;
+                transform: translateY(-1px);
+            }
+
+            /* Math Step Cards (LaTeX styled, non-monospace) */
+            .math-breakdown {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 16px;
+                margin-bottom: 22px;
+            }
+
+            .math-step-card {
+                background: #f8fafc;
+                border: 2px solid #e2e8f0;
+                border-radius: var(--radius-md);
+                padding: 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .math-step-title {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 0.85rem;
+                font-weight: 800;
+                color: #334155;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
+
+            .step-num {
+                width: 22px;
+                height: 22px;
+                border-radius: 7px;
+                background: #0f172a;
+                color: #fff;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.75rem;
+                font-weight: 900;
+            }
+
+            /* Pure LaTeX styling for math formulas (NO monospace font) */
+            .math-formula {
+                font-family:
+                    "KaTeX_Math", "KaTeX_Main", "Latin Modern Math",
+                    "Cambria Math", "TeX Gyre Termes Math", "Times New Roman",
+                    Times, serif;
+                background: #ffffff;
+                border: 1.5px solid #cbd5e1;
+                border-radius: 12px;
+                padding: 14px 16px;
+                font-size: 1.05rem;
+                color: #0f172a;
+                line-height: 1.85;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .math-line {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 8px;
+                min-height: 28px;
+            }
+
+            .math-highlight-line {
+                background: #eff6ff;
+                border-left: 3.5px solid #2563eb;
+                padding: 6px 10px;
+                border-radius: 6px;
+                margin-top: 4px;
+            }
+
+            .math-label {
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                font-size: 0.8rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: #64748b;
+                margin-right: 4px;
+            }
+
+            /* Unary Visualization Output Container */
+            .viz-container {
+                background: #ffffff;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius-md);
+                padding: 20px;
+            }
+
+            .viz-toolbar {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+
+            .viz-modes {
+                display: inline-flex;
+                background: #f1f5f9;
+                padding: 4px;
+                border-radius: 12px;
+                gap: 4px;
+            }
+
+            .viz-mode-btn {
+                font-family: inherit;
+                font-size: 0.85rem;
+                font-weight: 800;
+                padding: 6px 14px;
+                border-radius: 8px;
+                border: none;
+                background: transparent;
+                color: #475569;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                transition: all 0.15s ease;
+            }
+
+            .viz-mode-btn.active {
+                background: #ffffff;
+                color: #0f172a;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            }
+
+            .viz-canvas-box {
+                min-height: 130px;
+                max-height: 300px;
+                overflow-y: auto;
+                background: #fafafa;
+                border: 2px dashed #cbd5e1;
+                border-radius: 12px;
+                padding: 16px;
+                display: flex;
+                flex-wrap: wrap;
+                align-content: flex-start;
+                gap: 8px;
+                position: relative;
+            }
+
+            .unary-string-view {
+                font-family:
+                    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                    monospace;
+                font-size: 1.15rem;
+                font-weight: 800;
+                letter-spacing: 2.5px;
+                word-break: break-all;
+                line-height: 1.8;
+                color: #2563eb;
+                width: 100%;
+            }
+
+            /* Dots */
+            .unary-dot {
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                background: #3b82f6;
+                display: inline-block;
+                transition: transform 0.1s ease;
+            }
+            .unary-dot:hover {
+                transform: scale(1.4);
+                background: #1d4ed8;
+            }
+
+            /* Tally Marks */
+            .tally-group {
+                display: inline-flex;
+                align-items: center;
+                margin: 2px;
+                transition: transform 0.1s ease;
+            }
+            .tally-group:hover {
+                transform: scale(1.15);
+            }
+            .tally-svg {
+                display: block;
+            }
+
+            /* Canvas High-Density Container */
+            #high-density-canvas {
+                width: 100%;
+                height: 160px;
+                display: none;
+                background: #fafafa;
+                border: 2px dashed #cbd5e1;
+                border-radius: 12px;
+            }
+
+            /* Section 2: Unary to Base-10 */
+            .unary-input-box {
+                width: 100%;
+                min-height: 90px;
+                max-height: 140px;
+                padding: 14px;
+                font-family:
+                    ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+                font-size: 1.15rem;
+                font-weight: 800;
+                letter-spacing: 2.5px;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius-md);
+                resize: vertical;
+                color: #0f172a;
+            }
+            .unary-input-box:focus {
+                outline: none;
+                border-color: var(--accent);
+                box-shadow: 0 0 0 3.5px rgba(16, 185, 129, 0.15);
+            }
+
+            .unary-btn-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-top: 12px;
+                margin-bottom: 20px;
+            }
+
+            .hero-stat-card {
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                color: #fff;
+                border-radius: var(--radius-md);
+                padding: 24px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                align-items: center;
+                gap: 20px;
+                margin-bottom: 24px;
+                box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+            }
+
+            .stat-item {
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: #94a3b8;
+                font-weight: 800;
+            }
+
+            .stat-value {
+                font-size: 2.2rem;
+                font-weight: 900;
+                color: #38bdf8;
+                line-height: 1.1;
+            }
+
+            .stat-fraction {
+                color: #34d399;
+                font-size: 1.8rem;
+            }
+
+            /* Section 3: Cantor Diagonalization Grid Visualizer */
+            .visualizer-controls {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 20px;
+                background: #f8fafc;
+                padding: 14px;
+                border-radius: var(--radius-md);
+                border: 1px solid var(--border-color);
+            }
+
+            .grid-size-selector {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                flex-wrap: wrap;
+            }
+
+            .anim-controls {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .grid-stage {
+                position: relative;
+                margin: 16px auto 24px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                overflow-x: auto;
+                padding: 10px 0;
+            }
+
+            .grid-axis-col-headers {
+                display: flex;
+                gap: 12px;
+                margin-left: 90px;
+                margin-bottom: 8px;
+            }
+
+            .grid-col-header-item {
+                width: 90px;
+                text-align: center;
+                font-size: 0.82rem;
+                font-weight: 800;
+                color: #334155;
+                background: #f1f5f9;
+                padding: 6px 4px;
+                border-radius: 8px;
+            }
+
+            .cantor-grid-wrapper {
+                position: relative;
+                display: inline-block;
+            }
+
+            .cantor-grid {
+                display: grid;
+                gap: 12px;
+                position: relative;
+            }
+
+            /* SVG overlay for diagonal snake walk */
+            .grid-svg-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 5;
+            }
+
+            .grid-cell {
+                position: relative;
+                width: 90px;
+                height: 90px;
+                border-radius: 14px;
+                border: 2.5px solid var(--cell-border, #cbd5e1);
+                background: var(--cell-bg, #ffffff);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                user-select: none;
+                transition:
+                    transform 0.15s ease,
+                    box-shadow 0.15s ease,
+                    border-color 0.15s ease;
+                z-index: 6;
+            }
+
+            .grid-cell:hover {
+                transform: translateY(-4px) scale(1.04);
+                box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+                z-index: 20;
+            }
+
+            .grid-cell.active-walk {
+                box-shadow:
+                    0 0 0 4px #0f172a,
+                    0 10px 24px rgba(15, 23, 42, 0.2);
+                transform: scale(1.08);
+                z-index: 25;
+            }
+
+            .grid-cell.in-path {
+                border-color: #0f172a;
+            }
+
+            .cell-coord {
+                font-size: 0.76rem;
+                font-weight: 800;
+                color: #64748b;
+                margin-bottom: 2px;
+            }
+
+            .cell-z {
+                font-size: 1.45rem;
+                font-weight: 900;
+                color: #0f172a;
+                line-height: 1;
+            }
+
+            .cell-fraction {
+                font-size: 0.8rem;
+                font-weight: 800;
+                color: #0284c7;
+                margin-top: 3px;
+            }
+
+            .cell-unary {
+                font-size: 0.68rem;
+                font-weight: 800;
+                color: #dc2626;
+                font-family: monospace;
+            }
+
+            /* 1D Tape Visualizer */
+            .tape-section {
+                margin-top: 24px;
+                padding-top: 20px;
+                border-top: 2px dashed #e2e8f0;
+            }
+
+            .tape-title {
+                font-size: 0.95rem;
+                font-weight: 800;
+                color: #334155;
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .tape-scroll {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                padding: 8px 4px 16px;
+                scrollbar-width: thin;
+            }
+
+            .tape-cell {
+                flex: 0 0 78px;
+                height: 82px;
+                border-radius: 12px;
+                border: 2px solid #cbd5e1;
+                background: #fff;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.15s ease;
+            }
+
+            .tape-cell:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+            }
+
+            .tape-cell.active {
+                border: 3px solid #0f172a;
+                box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.15);
+                transform: scale(1.05);
+            }
+
+            .tape-index {
+                font-size: 1.15rem;
+                font-weight: 900;
+                color: #0f172a;
+            }
+
+            .tape-sub {
+                font-size: 0.75rem;
+                font-weight: 800;
+                color: #64748b;
+            }
+
+            .tape-unary {
+                font-size: 0.68rem;
+                font-family: monospace;
+                color: #2563eb;
+                font-weight: 800;
+                max-width: 68px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            /* Explanation inspector card */
+            .inspector-card {
+                background: #eff6ff;
+                border: 2px solid #bfdbfe;
+                border-radius: var(--radius-md);
+                padding: 16px;
+                margin-top: 16px;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+            }
+
+            .inspector-text {
+                font-size: 0.95rem;
+                color: #1e3a8a;
+                line-height: 1.7;
+            }
+
+            /* Notice box */
+            .info-banner {
+                background: #fffbeb;
+                border: 2px solid #fef3c7;
+                border-radius: var(--radius-lg);
+                padding: 16px 20px;
+                font-size: 0.92rem;
+                color: #92400e;
+                line-height: 1.7;
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 640px) {
+                .card {
+                    padding: 18px;
+                }
+                .grid-cell {
+                    width: 72px;
+                    height: 72px;
+                }
+                .grid-col-header-item {
+                    width: 72px;
+                    font-size: 0.72rem;
+                }
+                .grid-axis-col-headers {
+                    margin-left: 0;
+                }
+                .cell-z {
+                    font-size: 1.15rem;
+                }
+                .hero-stat-card {
+                    padding: 16px;
+                }
+                .stat-value {
+                    font-size: 1.8rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <h1>Unary Number System</h1>
+                <p class="header-desc">
+                    Welcome to a number system with just one symbol. We can
+                    represent both positive and negative rationals with this
+                    number system
+                </p>
+            </header>
+
+            <!-- SECTION 1: Base-10 to Unary Converter -->
+            <section class="card" id="section-base10-to-unary">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span class="section-badge">1</span>
+                        <h2>Base-10 to Unary</h2>
+                    </div>
+                </div>
+
+                <!-- Quick presets -->
+                <div class="preset-pills">
+                    <span
+                        style="
+                            font-size: 0.85rem;
+                            font-weight: 800;
+                            color: #64748b;
+                        "
+                        >Try Presets:</span
+                    >
+                    <button class="preset-pill" onclick="setBase10(1, 2)">
+                        1/2
+                    </button>
+                    <button class="preset-pill" onclick="setBase10(3, 4)">
+                        3/4
+                    </button>
+                    <button class="preset-pill" onclick="setBase10(-1, 2)">
+                        -1/2
+                    </button>
+                    <button class="preset-pill" onclick="setBase10(-2, 1)">
+                        -2
+                    </button>
+                </div>
+
+                <!-- Inputs -->
+                <div class="input-row">
+                    <div class="form-group" style="flex: 2 1 240px">
+                        <label for="base10-text-input">
+                            <span>Base-10 Number or Fraction</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="base10-text-input"
+                            class="toy-input"
+                            value="1/2"
+                            placeholder="Type fraction or decimal..."
+                        />
+                    </div>
+
+                    <div class="form-group" style="flex: 1 1 140px">
+                        <label for="num-stepper-val"
+                            >Numerator (a &in; &integers;)</label
+                        >
+                        <div class="stepper-wrap">
+                            <button
+                                class="stepper-btn"
+                                onclick="stepNumerator(-1)"
+                            >
+                                &minus;
+                            </button>
+                            <input
+                                type="number"
+                                id="num-stepper-val"
+                                class="toy-input"
+                                style="text-align: center"
+                                value="1"
+                                step="1"
+                            />
+                            <button
+                                class="stepper-btn"
+                                onclick="stepNumerator(1)"
+                            >
+                                &plus;
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="flex: 1 1 140px">
+                        <label for="den-stepper-val"
+                            >Denominator (b &ge; 1)</label
+                        >
+                        <div class="stepper-wrap">
+                            <button
+                                class="stepper-btn"
+                                onclick="stepDenominator(-1)"
+                            >
+                                &minus;
+                            </button>
+                            <input
+                                type="number"
+                                id="den-stepper-val"
+                                class="toy-input"
+                                style="text-align: center"
+                                value="2"
+                                min="1"
+                                step="1"
+                            />
+                            <button
+                                class="stepper-btn"
+                                onclick="stepDenominator(1)"
+                            >
+                                &plus;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step-by-Step Math Breakdown (LaTeX Styled) -->
+                <div class="math-breakdown">
+                    <!-- Step A: Fraction to NxN -->
+                    <div class="math-step-card">
+                        <div class="math-step-title">
+                            <span class="step-num">a</span>
+                            <span id="title-step-a"
+                                >Rational &rarr; &naturals;&times;&naturals;
+                                Mapping</span
+                            >
+                        </div>
+                        <div class="math-formula" id="math-step-a-details">
+                            <!-- Rendered in LaTeX via KaTeX -->
+                        </div>
+                    </div>
+
+                    <!-- Step B: Cantor Pairing NxN -> N -->
+                    <div class="math-step-card">
+                        <div class="math-step-title">
+                            <span class="step-num">b</span>
+                            <span id="title-step-b"
+                                >Cantor Pairing &naturals;&times;&naturals;
+                                &rarr; &naturals;</span
+                            >
+                        </div>
+                        <div class="math-formula" id="math-step-b-details">
+                            <!-- Rendered in LaTeX via KaTeX -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unary Visualizer Container -->
+                <div class="viz-container">
+                    <div class="viz-toolbar">
+                        <div
+                            style="
+                                display: flex;
+                                align-items: center;
+                                gap: 10px;
+                                flex-wrap: wrap;
+                            "
+                        >
+                            <span
+                                style="
+                                    font-weight: 800;
+                                    font-size: 1.05rem;
+                                    color: #0f172a;
+                                "
+                                >Unary Representation:</span
+                            >
+                            <span
+                                class="badge badge-rose"
+                                id="unary-count-badge"
+                                >7 ones (z = 7)</span
+                            >
+                        </div>
+
+                        <!-- 3 Options of Visualization -->
+                        <div class="viz-modes">
+                            <button
+                                class="viz-mode-btn active"
+                                id="btn-mode-ones"
+                                onclick="setVizMode('ones')"
+                            >
+                                <span>1️⃣</span> 1s String
+                            </button>
+                            <button
+                                class="viz-mode-btn"
+                                id="btn-mode-dots"
+                                onclick="setVizMode('dots')"
+                            >
+                                <span>🔵</span> Dots
+                            </button>
+                            <button
+                                class="viz-mode-btn"
+                                id="btn-mode-tally"
+                                onclick="setVizMode('tally')"
+                            >
+                                <span>卌</span> Tally Marks
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Output Display Area -->
+                    <div class="viz-canvas-box" id="viz-display-box">
+                        <!-- Populated live via JS -->
+                    </div>
+
+                    <!-- High density canvas for ultra large values -->
+                    <canvas id="high-density-canvas"></canvas>
+
+                    <div
+                        style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-top: 12px;
+                            flex-wrap: wrap;
+                            gap: 10px;
+                        "
+                    >
+                        <div
+                            style="font-size: 0.85rem; color: var(--text-muted)"
+                            id="viz-summary-text"
+                        >
+                            Displaying full unary representation.
+                        </div>
+                        <button
+                            class="toy-btn sm"
+                            id="btn-copy-unary"
+                            onclick="copyUnaryString()"
+                        >
+                            📋 Copy Unary String
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: Unary to Base-10 Converter -->
+            <section class="card" id="section-unary-to-base10">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span
+                            class="section-badge"
+                            style="background: var(--accent)"
+                            >2</span
+                        >
+                        <h2>Unary to Base-10 Converter</h2>
+                        <span class="badge badge-green">Click or Paste 1s</span>
+                    </div>
+                    <span class="badge badge-gray" id="unary-input-len-badge"
+                        >Length: 7 ones</span
+                    >
+                </div>
+
+                <textarea
+                    id="unary-input-box"
+                    class="unary-input-box"
+                    placeholder="Type or click buttons below to add 1s..."
+                >
+1111111</textarea
+                >
+
+                <!-- Quick Add Buttons -->
+                <div class="unary-btn-grid">
+                    <button
+                        class="toy-btn sm primary"
+                        onclick="addUnaryOnes(1)"
+                    >
+                        +1 '1'
+                    </button>
+                    <button
+                        class="toy-btn sm primary"
+                        onclick="addUnaryOnes(5)"
+                    >
+                        +5 '1's
+                    </button>
+                    <button
+                        class="toy-btn sm primary"
+                        onclick="addUnaryOnes(10)"
+                    >
+                        +10 '1's
+                    </button>
+                    <button
+                        class="toy-btn sm primary"
+                        onclick="addUnaryOnes(100)"
+                    >
+                        +100 '1's
+                    </button>
+                    <button
+                        class="toy-btn sm amber"
+                        onclick="addUnaryOnes(1000)"
+                    >
+                        +1,000 '1's (High Value)
+                    </button>
+                    <button class="toy-btn sm" onclick="removeUnaryOne()">
+                        ⌫ Backspace
+                    </button>
+                    <button class="toy-btn sm" onclick="clearUnary()">
+                        Clear
+                    </button>
+                </div>
+
+                <!-- Live Base-10 Result Card -->
+                <div class="hero-stat-card">
+                    <div class="stat-item">
+                        <span class="stat-label">Unary Count (z)</span>
+                        <span class="stat-value" id="res-z-val">7</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Recovered Fraction</span>
+                        <span
+                            class="stat-fraction"
+                            id="res-fraction-val"
+                        ></span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Decimal Value</span>
+                        <span
+                            class="stat-value"
+                            style="color: #fbbf24"
+                            id="res-decimal-val"
+                            >0.5</span
+                        >
+                    </div>
+                </div>
+
+                <!-- Math Breakdown: How Cantor Unpair Works (LaTeX Styled) -->
+                <div class="math-breakdown">
+                    <div class="math-step-card">
+                        <div class="math-step-title">
+                            <span class="step-num">a</span>
+                            <span id="title-unpair-a"
+                                >Extracting (k₁, k₂) from z</span
+                            >
+                        </div>
+                        <div class="math-formula" id="unpair-step-a-details">
+                            <!-- Rendered in LaTeX via KaTeX -->
+                        </div>
+                    </div>
+
+                    <div class="math-step-card">
+                        <div class="math-step-title">
+                            <span class="step-num">b</span>
+                            <span id="title-unpair-b"
+                                >Recovering Numerator & Denominator</span
+                            >
+                        </div>
+                        <div class="math-formula" id="unpair-step-b-details">
+                            <!-- Rendered in LaTeX via KaTeX -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: Cantor Diagonalization Function Visualizer -->
+            <section class="card" id="section-cantor-visualizer">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span
+                            class="section-badge"
+                            style="background: var(--purple)"
+                            >3</span
+                        >
+                        <h2 id="section-3-title">
+                            Cantor Pairing Visualizer: The 2D Grid to 1D Line
+                            Trick
+                        </h2>
+                    </div>
+                    <span class="badge badge-purple" id="section-3-badge"
+                        >Interactive Walk</span
+                    >
+                </div>
+
+                <p
+                    style="
+                        color: var(--text-muted);
+                        font-size: 0.96rem;
+                        margin-bottom: 16px;
+                        line-height: 1.6;
+                    "
+                >
+                    See how the 2D grid of pairs <code>(k₁, k₂)</code> folds
+                    into a single 1D line index <code>z</code>. The default
+                    <strong>2 &times; 2</strong> grid shows the fundamental
+                    walk. You can expand up to <strong>5 &times; 5</strong>,
+                    click any cell, or press
+                    <strong>Play Diagonal Walk</strong> to watch the diagonal
+                    fold in real-time!
+                </p>
+
+                <!-- Controls -->
+                <div class="visualizer-controls">
+                    <div class="grid-size-selector">
+                        <span
+                            style="
+                                font-size: 0.85rem;
+                                font-weight: 800;
+                                color: #475569;
+                            "
+                            >Grid Size:</span
+                        >
+                        <button
+                            class="toy-btn sm primary"
+                            id="btn-grid-2"
+                            onclick="setGridSize(2)"
+                        >
+                            2 &times; 2 (Default)
+                        </button>
+                        <button
+                            class="toy-btn sm"
+                            id="btn-grid-3"
+                            onclick="setGridSize(3)"
+                        >
+                            3 &times; 3
+                        </button>
+                        <button
+                            class="toy-btn sm"
+                            id="btn-grid-4"
+                            onclick="setGridSize(4)"
+                        >
+                            4 &times; 4
+                        </button>
+                        <button
+                            class="toy-btn sm"
+                            id="btn-grid-5"
+                            onclick="setGridSize(5)"
+                        >
+                            5 &times; 5
+                        </button>
+                    </div>
+
+                    <div class="anim-controls">
+                        <button
+                            class="toy-btn sm accent"
+                            id="btn-play-walk"
+                            onclick="toggleWalkAnimation()"
+                        >
+                            ▶ Play Diagonal Walk
+                        </button>
+                        <button class="toy-btn sm" onclick="stepWalk(-1)">
+                            ⏮ Step Back
+                        </button>
+                        <button class="toy-btn sm" onclick="stepWalk(1)">
+                            ⏭ Step
+                        </button>
+                        <button class="toy-btn sm" onclick="resetWalk()">
+                            ↺ Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2D Grid Stage with Axes & SVG Snake Overlay -->
+                <div class="grid-stage">
+                    <!-- Column Axis Headers (k2 / Denominator b = k2 + 1) -->
+                    <div class="grid-axis-col-headers" id="grid-col-headers">
+                        <!-- Populated via JS with LaTeX -->
+                    </div>
+
+                    <div class="cantor-grid-wrapper">
+                        <svg
+                            class="grid-svg-overlay"
+                            id="grid-svg-overlay"
+                        ></svg>
+                        <div class="cantor-grid" id="cantor-grid-container">
+                            <!-- Grid cells populated via JS with LaTeX -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inspector Banner -->
+                <div class="inspector-card" id="grid-inspector">
+                    <div class="inspector-text" id="inspector-content">
+                        Hover or click on any cell in the grid or the 1D tape to
+                        inspect its Cantor parameters and unary representation!
+                    </div>
+                    <div class="badge badge-blue" id="inspector-badge">
+                        Ready
+                    </div>
+                </div>
+
+                <!-- 1D Unfolded Tape -->
+                <div class="tape-section">
+                    <div class="tape-title">
+                        <span>Unfolded 1D Line Tape (The Flattened Line)</span>
+                        <span class="badge badge-gray"
+                            >Scroll horizontally &rarr;</span
+                        >
+                    </div>
+                    <div class="tape-scroll" id="tape-container">
+                        <!-- Tape slots generated via JS with LaTeX -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Explanatory Footer Banner -->
+            <div class="info-banner" id="info-footer-banner">
+                <span style="font-size: 1.5rem">💡</span>
+                <div id="info-footer-text">
+                    <!-- Populated with KaTeX LaTeX -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Load Math Logic -->
+        <script src="math.js"></script>
+
+        <script>
+            /* ==========================================================
+       LATEX RENDERING ENGINE (KaTeX with Fallback)
+       ========================================================== */
+            function tex(latex, display = false) {
+                if (typeof katex !== "undefined") {
+                    try {
+                        return katex.renderToString(latex, {
+                            displayMode: display,
+                            throwOnError: false,
+                        });
+                    } catch (err) {
+                        console.warn("KaTeX rendering error:", err);
+                    }
+                }
+                return `<span style="font-style: italic; font-family: 'Times New Roman', serif;">${latex}</span>`;
+            }
+
+            /* ==========================================================
+       STATE & CONSTANTS
+       ========================================================== */
+            let currentNumerator = 1;
+            let currentDenominator = 2;
+            let currentVizMode = "ones"; // 'ones' | 'dots' | 'tally'
+
+            let currentGridSize = 2;
+            let currentWalkIndex = 0;
+            let walkInterval = null;
+            let walkOrder = []; // Array of { k1, k2, z, w, a, b }
+
+            // Harmonious diagonal colors for diagonals w = 0, 1, 2, 3...
+            const DIAGONAL_COLORS = [
+                { bg: "#dbeafe", border: "#93c5fd", text: "#1e40af" }, // w=0 Sky
+                { bg: "#dcfce7", border: "#86efac", text: "#166534" }, // w=1 Emerald
+                { bg: "#fef3c7", border: "#fcd34d", text: "#92400e" }, // w=2 Amber
+                { bg: "#f3e8ff", border: "#d8b4fe", text: "#6b21a8" }, // w=3 Violet
+                { bg: "#ffe4e6", border: "#fda4af", text: "#9f1239" }, // w=4 Rose
+                { bg: "#ccfbf1", border: "#5eead4", text: "#0f766e" }, // w=5 Teal
+                { bg: "#ffedd5", border: "#fdba74", text: "#c2410c" }, // w=6 Orange
+                { bg: "#e0e7ff", border: "#a5b4fc", text: "#3730a3" }, // w>=7 Indigo
+            ];
+
+            function getDiagonalColor(w) {
+                return DIAGONAL_COLORS[w % DIAGONAL_COLORS.length];
+            }
+
+            /* ==========================================================
+       SECTION 1: BASE-10 TO UNARY CONVERTER
+       ========================================================== */
+            const base10TextInput =
+                document.getElementById("base10-text-input");
+            const numStepper = document.getElementById("num-stepper-val");
+            const denStepper = document.getElementById("den-stepper-val");
+            const mathStepADetails = document.getElementById(
+                "math-step-a-details",
+            );
+            const mathStepBDetails = document.getElementById(
+                "math-step-b-details",
+            );
+            const unaryCountBadge =
+                document.getElementById("unary-count-badge");
+            const vizDisplayBox = document.getElementById("viz-display-box");
+            const highDensityCanvas = document.getElementById(
+                "high-density-canvas",
+            );
+            const vizSummaryText = document.getElementById("viz-summary-text");
+
+            // Parse Base10 user string (supports fraction, decimal, integer)
+            function parseFractionString(str) {
+                str = str.trim();
+                if (!str) return null;
+
+                if (str.includes("/")) {
+                    const parts = str.split("/");
+                    if (parts.length !== 2) return null;
+                    const n = Number(parts[0].trim());
+                    const d = Number(parts[1].trim());
+                    if (
+                        isNaN(n) ||
+                        isNaN(d) ||
+                        !Number.isInteger(n) ||
+                        !Number.isInteger(d) ||
+                        d < 1
+                    )
+                        return null;
+                    return { num: n, den: d };
+                }
+
+                const val = Number(str);
+                if (isNaN(val)) return null;
+
+                if (Number.isInteger(val)) {
+                    return { num: val, den: 1 };
+                }
+
+                // Convert decimal to fraction
+                const parts = str.split(".");
+                if (parts.length === 2) {
+                    const decimals = parts[1].length;
+                    const factor = Math.pow(10, Math.min(decimals, 5));
+                    let num = Math.round(val * factor);
+                    let den = factor;
+                    function gcd(x, y) {
+                        x = Math.abs(x);
+                        y = Math.abs(y);
+                        while (y) {
+                            let t = y;
+                            y = x % y;
+                            x = t;
+                        }
+                        return x;
+                    }
+                    const g = gcd(num, den);
+                    return { num: num / g, den: den / g };
+                }
+                return null;
+            }
+
+            function setBase10(num, den) {
+                currentNumerator = num;
+                currentDenominator = den;
+                base10TextInput.value = den === 1 ? `${num}` : `${num}/${den}`;
+                numStepper.value = num;
+                denStepper.value = den;
+                updateBase10ToUnary();
+            }
+
+            function stepNumerator(delta) {
+                currentNumerator += delta;
+                numStepper.value = currentNumerator;
+                base10TextInput.value =
+                    currentDenominator === 1
+                        ? `${currentNumerator}`
+                        : `${currentNumerator}/${currentDenominator}`;
+                updateBase10ToUnary();
+            }
+
+            function stepDenominator(delta) {
+                const next = currentDenominator + delta;
+                if (next < 1) return;
+                currentDenominator = next;
+                denStepper.value = currentDenominator;
+                base10TextInput.value =
+                    currentDenominator === 1
+                        ? `${currentNumerator}`
+                        : `${currentNumerator}/${currentDenominator}`;
+                updateBase10ToUnary();
+            }
+
+            // Main live update for Section 1 with LaTeX Calculations
+            function updateBase10ToUnary() {
+                try {
+                    const a = currentNumerator;
+                    const b = currentDenominator;
+
+                    if (!Number.isInteger(a) || !Number.isInteger(b) || b < 1) {
+                        throw new Error(
+                            "Denominator must be an integer >= 1, Numerator must be an integer.",
+                        );
+                    }
+
+                    // Calculate Cantor Pair
+                    const z = cantorPair(a, b);
+
+                    // Intermediate variables
+                    let k1 = a > 0 ? 2 * a : a < 0 ? -2 * a + 1 : 0;
+                    let k2 = b - 1;
+                    let w = k1 + k2;
+                    let tw = (w * (w + 1)) / 2;
+
+                    // Step A Formula Breakdown in LaTeX
+                    let k1Latex = "";
+                    if (a > 0) {
+                        k1Latex = `a = ${a} > 0 \\implies k_1 = 2a = 2(${a}) = \\mathbf{${k1}}`;
+                    } else if (a < 0) {
+                        k1Latex = `a = ${a} < 0 \\implies k_1 = -2a + 1 = -2(${a}) + 1 = \\mathbf{${k1}}`;
+                    } else {
+                        k1Latex = `a = 0 \\implies k_1 = \\mathbf{0}`;
+                    }
+                    const k2Latex = `b = ${b} \\implies k_2 = b - 1 = ${b} - 1 = \\mathbf{${k2}}`;
+                    const pointLatex = `(k_1, k_2) = (${k1}, ${k2}) \\in \\mathbb{N}_0 \\times \\mathbb{N}_0`;
+
+                    mathStepADetails.innerHTML = `
+          <div class="math-line"><span class="math-label">Numerator:</span> ${tex(k1Latex)}</div>
+          <div class="math-line"><span class="math-label">Denominator:</span> ${tex(k2Latex)}</div>
+          <div class="math-line math-highlight-line"><span class="math-label">Coordinate:</span> ${tex(pointLatex)}</div>
+        `;
+
+                    // Step B Formula Breakdown in LaTeX
+                    const diagLatex = `w = k_1 + k_2 = ${k1} + ${k2} = \\mathbf{${w}}`;
+                    const triLatex = `T_w = \\frac{w(w + 1)}{2} = \\frac{${w}(${w} + 1)}{2} = \\mathbf{${tw}}`;
+                    const zLatex = `z = \\pi(k_1, k_2) = \\frac{(k_1 + k_2)(k_1 + k_2 + 1)}{2} + k_2 = ${tw} + ${k2} = \\mathbf{${z}}`;
+
+                    mathStepBDetails.innerHTML = `
+          <div class="math-line"><span class="math-label">Diagonal:</span> ${tex(diagLatex)}</div>
+          <div class="math-line"><span class="math-label">Triangle:</span> ${tex(triLatex)}</div>
+          <div class="math-line math-highlight-line"><span class="math-label">Index:</span> ${tex(zLatex)}</div>
+        `;
+
+                    // Update Unary Badge
+                    unaryCountBadge.innerText = `${z.toLocaleString()} ones (z = ${z})`;
+
+                    // Render Unary in Selected Mode
+                    renderUnaryOutput(z);
+                } catch (err) {
+                    mathStepADetails.innerHTML = `<span style="color:#ef4444;">Error: ${err.message}</span>`;
+                    mathStepBDetails.innerHTML = `<span style="color:#ef4444;">Invalid input values.</span>`;
+                    unaryCountBadge.innerText = "Invalid Input";
+                    vizDisplayBox.innerHTML = `<div style="color:#ef4444; font-weight:700;">Please check your input values.</div>`;
+                }
+            }
+
+            function setVizMode(mode) {
+                currentVizMode = mode;
+                document
+                    .getElementById("btn-mode-ones")
+                    .classList.toggle("active", mode === "ones");
+                document
+                    .getElementById("btn-mode-dots")
+                    .classList.toggle("active", mode === "dots");
+                document
+                    .getElementById("btn-mode-tally")
+                    .classList.toggle("active", mode === "tally");
+                updateBase10ToUnary();
+            }
+
+            // Render the unary output with support for high values
+            function renderUnaryOutput(z) {
+                vizDisplayBox.innerHTML = "";
+                highDensityCanvas.style.display = "none";
+                vizDisplayBox.style.display = "flex";
+
+                if (z === 0) {
+                    vizDisplayBox.innerHTML = `<div style="color: #64748b; font-style: italic; font-weight: 700;">(Empty unary string for 0 - length 0)</div>`;
+                    vizSummaryText.innerText = "Value is 0. Unary length is 0.";
+                    return;
+                }
+
+                // Mode A: 1s String
+                if (currentVizMode === "ones") {
+                    const MAX_STR_RENDER = 2500;
+                    if (z <= MAX_STR_RENDER) {
+                        const str = toUnary(z);
+                        vizDisplayBox.innerHTML = `<div class="unary-string-view">${str}</div>`;
+                        vizSummaryText.innerText = `Full unary string displayed (${z.toLocaleString()} characters).`;
+                    } else {
+                        const preview = "1".repeat(200);
+                        vizDisplayBox.innerHTML = `
+            <div class="unary-string-view">
+              ${preview} ... [${(z - 400).toLocaleString()} more '1's] ... ${preview}
+            </div>
+          `;
+                        vizSummaryText.innerText = `Showing preview of ${z.toLocaleString()} '1's. Click 'Copy' for complete string.`;
+                    }
+                }
+
+                // Mode B: Dots
+                else if (currentVizMode === "dots") {
+                    if (z <= 300) {
+                        const frag = document.createDocumentFragment();
+                        for (let i = 0; i < z; i++) {
+                            const dot = document.createElement("span");
+                            dot.className = "unary-dot";
+                            dot.title = `Dot #${i + 1}`;
+                            frag.appendChild(dot);
+                        }
+                        vizDisplayBox.appendChild(frag);
+                        vizSummaryText.innerText = `Rendered all ${z} individual circle tokens.`;
+                    } else {
+                        vizDisplayBox.style.display = "none";
+                        highDensityCanvas.style.display = "block";
+                        renderCanvasDots(z);
+                        vizSummaryText.innerText = `Canvas mode: Rendering ${z.toLocaleString()} dots smoothly!`;
+                    }
+                }
+
+                // Mode C: Tally Marks
+                else if (currentVizMode === "tally") {
+                    if (z <= 300) {
+                        const fullGroups = Math.floor(z / 5);
+                        const remainder = z % 5;
+                        const frag = document.createDocumentFragment();
+
+                        for (let i = 0; i < fullGroups; i++) {
+                            const wrap = document.createElement("span");
+                            wrap.className = "tally-group";
+                            wrap.title = `Tally 5-group #${i + 1}`;
+                            wrap.innerHTML = generateTallySVG(5);
+                            frag.appendChild(wrap);
+                        }
+
+                        if (remainder > 0) {
+                            const wrap = document.createElement("span");
+                            wrap.className = "tally-group";
+                            wrap.title = `Remaining ${remainder} tally mark(s)`;
+                            wrap.innerHTML = generateTallySVG(remainder);
+                            frag.appendChild(wrap);
+                        }
+
+                        vizDisplayBox.appendChild(frag);
+                        vizSummaryText.innerText = `${fullGroups} groups of 5 + ${remainder} single(s) = ${z} tally marks.`;
+                    } else {
+                        vizDisplayBox.style.display = "none";
+                        highDensityCanvas.style.display = "block";
+                        renderCanvasTallies(z);
+                        const fullGroups = Math.floor(z / 5);
+                        const remainder = z % 5;
+                        vizSummaryText.innerText = `High-density canvas: ${fullGroups.toLocaleString()} groups of 5 + ${remainder} singles = ${z.toLocaleString()} tallies!`;
+                    }
+                }
+            }
+
+            // Generate authentic SVG tally mark glyph
+            function generateTallySVG(count) {
+                let lines = "";
+                const xCoords = [6, 12, 18, 24];
+                const verticalCount = Math.min(count, 4);
+                for (let i = 0; i < verticalCount; i++) {
+                    lines += `<line x1="${xCoords[i]}" y1="3" x2="${xCoords[i]}" y2="25" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>`;
+                }
+                if (count === 5) {
+                    lines += `<line x1="2" y1="23" x2="28" y2="5" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>`;
+                }
+                return `<svg class="tally-svg" viewBox="0 0 30 28" width="30" height="28">${lines}</svg>`;
+            }
+
+            // High performance canvas renderer for dots
+            function renderCanvasDots(total) {
+                const canvas = highDensityCanvas;
+                const ctx = canvas.getContext("2d");
+                const dpr = window.devicePixelRatio || 1;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.scale(dpr, dpr);
+
+                ctx.clearRect(0, 0, rect.width, rect.height);
+                ctx.fillStyle = "#3b82f6";
+
+                const dotSize = Math.max(
+                    2,
+                    Math.min(
+                        6,
+                        Math.sqrt((rect.width * rect.height) / (total * 2)),
+                    ),
+                );
+                const gap = dotSize + 2;
+                const cols = Math.floor(rect.width / gap);
+
+                const toDraw = Math.min(total, 25000);
+                for (let i = 0; i < toDraw; i++) {
+                    const col = i % cols;
+                    const row = Math.floor(i / cols);
+                    const x = col * gap + gap / 2;
+                    const y = row * gap + gap / 2;
+                    if (y > rect.height) break;
+                    ctx.beginPath();
+                    ctx.arc(x, y, dotSize / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // High performance canvas renderer for tallies
+            function renderCanvasTallies(total) {
+                const canvas = highDensityCanvas;
+                const ctx = canvas.getContext("2d");
+                const dpr = window.devicePixelRatio || 1;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.scale(dpr, dpr);
+
+                ctx.clearRect(0, 0, rect.width, rect.height);
+
+                const groupW = 20;
+                const groupH = 18;
+                const cols = Math.floor(rect.width / (groupW + 4));
+                const fullGroups = Math.floor(total / 5);
+                const remainder = total % 5;
+
+                const maxGroupsToDraw = Math.min(fullGroups, 1200);
+
+                ctx.lineWidth = 1.5;
+                ctx.lineCap = "round";
+
+                for (let i = 0; i < maxGroupsToDraw; i++) {
+                    const c = i % cols;
+                    const r = Math.floor(i / cols);
+                    const gx = c * (groupW + 4) + 4;
+                    const gy = r * (groupH + 4) + 4;
+                    if (gy > rect.height) break;
+
+                    ctx.strokeStyle = "#1e293b";
+                    for (let b = 0; b < 4; b++) {
+                        const bx = gx + b * 4;
+                        ctx.beginPath();
+                        ctx.moveTo(bx, gy);
+                        ctx.lineTo(bx, gy + groupH);
+                        ctx.stroke();
+                    }
+
+                    ctx.strokeStyle = "#ef4444";
+                    ctx.beginPath();
+                    ctx.moveTo(gx - 2, gy + groupH - 2);
+                    ctx.lineTo(gx + 14, gy + 2);
+                    ctx.stroke();
+                }
+            }
+
+            function copyUnaryString() {
+                try {
+                    const z = cantorPair(currentNumerator, currentDenominator);
+                    const str = toUnary(z);
+                    navigator.clipboard.writeText(str).then(() => {
+                        const btn = document.getElementById("btn-copy-unary");
+                        const orig = btn.innerText;
+                        btn.innerText = "✅ Copied!";
+                        setTimeout(() => (btn.innerText = orig), 1500);
+                    });
+                } catch (e) {
+                    alert("Could not copy: " + e.message);
+                }
+            }
+
+            // Input event listeners for Section 1
+            base10TextInput.addEventListener("input", (e) => {
+                const parsed = parseFractionString(e.target.value);
+                if (parsed) {
+                    currentNumerator = parsed.num;
+                    currentDenominator = parsed.den;
+                    numStepper.value = parsed.num;
+                    denStepper.value = parsed.den;
+                    updateBase10ToUnary();
+                }
+            });
+
+            numStepper.addEventListener("input", (e) => {
+                const val = parseInt(e.target.value, 10);
+                if (!isNaN(val)) {
+                    currentNumerator = val;
+                    base10TextInput.value =
+                        currentDenominator === 1
+                            ? `${val}`
+                            : `${val}/${currentDenominator}`;
+                    updateBase10ToUnary();
+                }
+            });
+
+            denStepper.addEventListener("input", (e) => {
+                const val = parseInt(e.target.value, 10);
+                if (!isNaN(val) && val >= 1) {
+                    currentDenominator = val;
+                    base10TextInput.value =
+                        val === 1
+                            ? `${currentNumerator}`
+                            : `${currentNumerator}/${val}`;
+                    updateBase10ToUnary();
+                }
+            });
+
+            /* ==========================================================
+       SECTION 2: UNARY TO BASE-10 CONVERTER
+       ========================================================== */
+            const unaryInputBox = document.getElementById("unary-input-box");
+            const unaryInputLenBadge = document.getElementById(
+                "unary-input-len-badge",
+            );
+            const resZVal = document.getElementById("res-z-val");
+            const resFractionVal = document.getElementById("res-fraction-val");
+            const resDecimalVal = document.getElementById("res-decimal-val");
+            const unpairStepADetails = document.getElementById(
+                "unpair-step-a-details",
+            );
+            const unpairStepBDetails = document.getElementById(
+                "unpair-step-b-details",
+            );
+
+            function addUnaryOnes(count) {
+                unaryInputBox.value += "1".repeat(count);
+                updateUnaryToBase10();
+            }
+
+            function removeUnaryOne() {
+                unaryInputBox.value = unaryInputBox.value.slice(0, -1);
+                updateUnaryToBase10();
+            }
+
+            function clearUnary() {
+                unaryInputBox.value = "";
+                updateUnaryToBase10();
+            }
+
+            // Main live update for Section 2 with LaTeX Calculations
+            function updateUnaryToBase10() {
+                const raw = unaryInputBox.value;
+                const count = (raw.match(/1/g) || []).length;
+                unaryInputLenBadge.innerText = `Length: ${count.toLocaleString()} ones`;
+
+                try {
+                    const z = count;
+                    const { numerator, denominator } = cantorUnpair(z);
+
+                    // Step a: Inversion to (k1, k2)
+                    const w = Math.floor((Math.sqrt(8 * z + 1) - 1) / 2);
+                    const t = (w * (w + 1)) / 2;
+                    const k2 = z - t;
+                    const k1 = w - k2;
+
+                    resZVal.innerText = z.toLocaleString();
+
+                    // Display fraction in LaTeX!
+                    resFractionVal.innerHTML = tex(
+                        `\\frac{${numerator}}{${denominator}}`,
+                        true,
+                    );
+
+                    const decimal = numerator / denominator;
+                    resDecimalVal.innerText = Number.isInteger(decimal)
+                        ? decimal
+                        : decimal.toFixed(4);
+
+                    // Step A Formula Breakdown in LaTeX
+                    const rootLatex = `w = \\left\\lfloor \\frac{\\sqrt{8z + 1} - 1}{2} \\right\\rfloor = \\left\\lfloor \\frac{\\sqrt{8(${z}) + 1} - 1}{2} \\right\\rfloor = \\mathbf{${w}}`;
+                    const tLatex = `t = \\frac{w(w + 1)}{2} = \\frac{${w}(${w} + 1)}{2} = \\mathbf{${t}}`;
+                    const k2Latex = `k_2 = z - t = ${z} - ${t} = \\mathbf{${k2}}`;
+                    const k1Latex = `k_1 = w - k_2 = ${w} - ${k2} = \\mathbf{${k1}}`;
+
+                    unpairStepADetails.innerHTML = `
+          <div class="math-line"><span class="math-label">Diagonal:</span> ${tex(rootLatex)}</div>
+          <div class="math-line"><span class="math-label">Base Triangle:</span> ${tex(tLatex)}</div>
+          <div class="math-line"><span class="math-label">k₂ Offset:</span> ${tex(k2Latex)}</div>
+          <div class="math-line math-highlight-line"><span class="math-label">Point:</span> ${tex(`(k_1, k_2) = (${k1}, ${k2})`)}</div>
+        `;
+
+                    // Step B Formula Breakdown in LaTeX
+                    const denLatex = `b = k_2 + 1 = ${k2} + 1 = \\mathbf{${denominator}}`;
+                    let numLatex = "";
+                    if (k1 === 0) {
+                        numLatex = `k_1 = 0 \\implies a = \\mathbf{0}`;
+                    } else if (k1 % 2 === 0) {
+                        numLatex = `k_1 = ${k1} \\text{ (even)} \\implies a = \\frac{k_1}{2} = \\frac{${k1}}{2} = \\mathbf{${numerator}}`;
+                    } else {
+                        numLatex = `k_1 = ${k1} \\text{ (odd)} \\implies a = \\frac{1 - k_1}{2} = \\frac{1 - ${k1}}{2} = \\mathbf{${numerator}}`;
+                    }
+                    const fractionLatex = `\\text{Rational Number: } \\frac{a}{b} = \\mathbf{\\frac{${numerator}}{${denominator}}}`;
+
+                    unpairStepBDetails.innerHTML = `
+          <div class="math-line"><span class="math-label">Denominator:</span> ${tex(denLatex)}</div>
+          <div class="math-line"><span class="math-label">Numerator:</span> ${tex(numLatex)}</div>
+          <div class="math-line math-highlight-line"><span class="math-label">Fraction:</span> ${tex(fractionLatex)}</div>
+        `;
+                } catch (err) {
+                    resZVal.innerText = "-";
+                    resFractionVal.innerText = "Error";
+                    resDecimalVal.innerText = "-";
+                    unpairStepADetails.innerHTML = `<span style="color:#ef4444;">${err.message}</span>`;
+                }
+            }
+
+            unaryInputBox.addEventListener("input", updateUnaryToBase10);
+
+            /* ==========================================================
+       SECTION 3: CANTOR DIAGONALIZATION FUNCTION VISUALIZER
+       ========================================================== */
+            const cantorGridContainer = document.getElementById(
+                "cantor-grid-container",
+            );
+            const gridColHeaders = document.getElementById("grid-col-headers");
+            const gridSvgOverlay = document.getElementById("grid-svg-overlay");
+            const tapeContainer = document.getElementById("tape-container");
+            const inspectorContent =
+                document.getElementById("inspector-content");
+            const inspectorBadge = document.getElementById("inspector-badge");
+            const btnPlayWalk = document.getElementById("btn-play-walk");
+
+            function setGridSize(size) {
+                currentGridSize = size;
+                [2, 3, 4, 5].forEach((s) => {
+                    const btn = document.getElementById(`btn-grid-${s}`);
+                    if (btn) btn.classList.toggle("primary", s === size);
+                });
+                resetWalk();
+                buildCantorGrid();
+                buildTape();
+                drawSnakePath();
+            }
+
+            // Build the 2D Grid with diagonal coloring and LaTeX labels
+            function buildCantorGrid() {
+                cantorGridContainer.innerHTML = "";
+                gridColHeaders.innerHTML = "";
+                const n = currentGridSize;
+
+                // Build Column Headers (k2 / Denominator b = k2 + 1)
+                for (let c = 0; c < n; c++) {
+                    const colHeader = document.createElement("div");
+                    colHeader.className = "grid-col-header-item";
+                    colHeader.innerHTML = `${tex(`k_2 = ${c}`)}<br><span style="color:#0284c7;">${tex(`b = ${c + 1}`)}</span>`;
+                    gridColHeaders.appendChild(colHeader);
+                }
+
+                // Configure Grid CSS
+                cantorGridContainer.style.gridTemplateColumns = `repeat(${n}, 90px)`;
+
+                // Collect all cells within grid bounds
+                const cells = [];
+                for (let r = 0; r < n; r++) {
+                    for (let c = 0; c < n; c++) {
+                        const k1 = r;
+                        const k2 = c;
+                        const w = k1 + k2;
+                        const z = ((k1 + k2) * (k1 + k2 + 1)) / 2 + k2;
+                        const unp = cantorUnpair(z);
+                        cells.push({
+                            k1,
+                            k2,
+                            z,
+                            w,
+                            a: unp.numerator,
+                            b: unp.denominator,
+                        });
+                    }
+                }
+
+                // Sort walk order by Cantor index z
+                walkOrder = [...cells].sort((a, b) => a.z - b.z);
+
+                // Render cells
+                for (let r = 0; r < n; r++) {
+                    for (let c = 0; c < n; c++) {
+                        const item = cells.find(
+                            (item) => item.k1 === r && item.k2 === c,
+                        );
+                        const color = getDiagonalColor(item.w);
+
+                        const cellEl = document.createElement("div");
+                        cellEl.className = "grid-cell";
+                        cellEl.id = `cell-${item.k1}-${item.k2}`;
+                        cellEl.style.setProperty("--cell-bg", color.bg);
+                        cellEl.style.setProperty("--cell-border", color.border);
+
+                        // Unary preview: 1s string or count
+                        const unaryPreview =
+                            item.z === 0
+                                ? "0"
+                                : item.z <= 6
+                                  ? "1".repeat(item.z)
+                                  : `${item.z}&times;'1'`;
+
+                        cellEl.innerHTML = `
+            <div class="cell-coord">${tex(`(${item.k1}, ${item.k2})`)}</div>
+            <div class="cell-z">${item.z}</div>
+            <div class="cell-fraction">${tex(`\\frac{${item.a}}{${item.b}}`)}</div>
+            <div class="cell-unary">${unaryPreview}</div>
+          `;
+
+                        cellEl.addEventListener("mouseenter", () =>
+                            inspectCell(item),
+                        );
+                        cellEl.addEventListener("click", () => {
+                            inspectCell(item);
+                            jumpWalkTo(item.z);
+                        });
+
+                        cantorGridContainer.appendChild(cellEl);
+                    }
+                }
+            }
+
+            // Draw SVG Snake Connectors between cells in diagonal walk order
+            function drawSnakePath() {
+                requestAnimationFrame(() => {
+                    const svg = gridSvgOverlay;
+                    const containerRect =
+                        cantorGridContainer.getBoundingClientRect();
+                    svg.setAttribute(
+                        "viewBox",
+                        `0 0 ${containerRect.width} ${containerRect.height}`,
+                    );
+
+                    const points = [];
+                    walkOrder.forEach((item) => {
+                        const el = document.getElementById(
+                            `cell-${item.k1}-${item.k2}`,
+                        );
+                        if (el) {
+                            const r = el.getBoundingClientRect();
+                            const cx =
+                                r.left - containerRect.left + r.width / 2;
+                            const cy = r.top - containerRect.top + r.height / 2;
+                            points.push({ x: cx, y: cy, z: item.z });
+                        }
+                    });
+
+                    if (points.length < 2) {
+                        svg.innerHTML = "";
+                        return;
+                    }
+
+                    let fullPath = `M ${points[0].x} ${points[0].y}`;
+                    for (let i = 1; i < points.length; i++) {
+                        fullPath += ` L ${points[i].x} ${points[i].y}`;
+                    }
+
+                    let activePath = `M ${points[0].x} ${points[0].y}`;
+                    for (
+                        let i = 1;
+                        i <= Math.min(currentWalkIndex, points.length - 1);
+                        i++
+                    ) {
+                        activePath += ` L ${points[i].x} ${points[i].y}`;
+                    }
+
+                    svg.innerHTML = `
+          <path d="${fullPath}" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 4" opacity="0.6"/>
+          <path d="${activePath}" fill="none" stroke="#2563eb" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        `;
+                });
+            }
+
+            // Build the 1D Line Tape underneath with LaTeX
+            function buildTape() {
+                tapeContainer.innerHTML = "";
+                walkOrder.forEach((item) => {
+                    const color = getDiagonalColor(item.w);
+                    const tapeCell = document.createElement("div");
+                    tapeCell.className = "tape-cell";
+                    tapeCell.id = `tape-slot-${item.z}`;
+                    tapeCell.style.backgroundColor = color.bg;
+                    tapeCell.style.borderColor = color.border;
+
+                    const unaryPreview =
+                        item.z === 0
+                            ? "∅"
+                            : item.z <= 6
+                              ? "1".repeat(item.z)
+                              : `${item.z}&times;'1'`;
+
+                    tapeCell.innerHTML = `
+          <div class="tape-index">${item.z}</div>
+          <div class="tape-sub">${tex(`(${item.k1}, ${item.k2})`)}</div>
+          <div class="tape-sub" style="color:#0284c7;">${tex(`\\frac{${item.a}}{${item.b}}`)}</div>
+          <div class="tape-unary">${unaryPreview}</div>
+        `;
+
+                    tapeCell.addEventListener("mouseenter", () =>
+                        inspectCell(item),
+                    );
+                    tapeCell.addEventListener("click", () => {
+                        inspectCell(item);
+                        jumpWalkTo(item.z);
+                    });
+
+                    tapeContainer.appendChild(tapeCell);
+                });
+            }
+
+            // Display cell details in inspector with LaTeX
+            function inspectCell(item) {
+                const unaryStr = toUnary(item.z);
+                inspectorContent.innerHTML = `
+        <span><strong>Cell:</strong> ${tex(`(k_1, k_2) = (${item.k1}, ${item.k2})`)}</span> &bull;
+        <span><strong>Diagonal:</strong> ${tex(`w = ${item.w}`)}</span> &bull;
+        <span><strong>Cantor Index:</strong> ${tex(`z = ${item.z}`)}</span> &bull;
+        <span><strong>Fraction:</strong> ${tex(`\\frac{a}{b} = \\frac{${item.a}}{${item.b}}`)}</span> &bull;
+        <span><strong>Unary:</strong> <code>${unaryStr ? unaryStr : "(0 length)"}</code> (${item.z} ones)</span>
+      `;
+                inspectorBadge.innerText = `z = ${item.z}`;
+
+                // Highlight in tape
+                document
+                    .querySelectorAll(".tape-cell")
+                    .forEach((el) => el.classList.remove("active"));
+                const tapeEl = document.getElementById(`tape-slot-${item.z}`);
+                if (tapeEl) {
+                    tapeEl.classList.add("active");
+                    tapeEl.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest",
+                        inline: "center",
+                    });
+                }
+            }
+
+            // Diagonal Walk Animation Controls
+            function toggleWalkAnimation() {
+                if (walkInterval) {
+                    pauseWalk();
+                } else {
+                    startWalk();
+                }
+            }
+
+            function startWalk() {
+                btnPlayWalk.innerText = "⏸ Pause Walk";
+                btnPlayWalk.classList.remove("accent");
+                btnPlayWalk.classList.add("amber");
+                walkInterval = setInterval(() => {
+                    currentWalkIndex++;
+                    if (currentWalkIndex >= walkOrder.length) {
+                        currentWalkIndex = 0;
+                    }
+                    applyWalkState();
+                }, 750);
+            }
+
+            function pauseWalk() {
+                clearInterval(walkInterval);
+                walkInterval = null;
+                btnPlayWalk.innerText = "▶ Play Diagonal Walk";
+                btnPlayWalk.classList.remove("amber");
+                btnPlayWalk.classList.add("accent");
+            }
+
+            function stepWalk(delta) {
+                pauseWalk();
+                currentWalkIndex += delta;
+                if (currentWalkIndex < 0)
+                    currentWalkIndex = walkOrder.length - 1;
+                if (currentWalkIndex >= walkOrder.length) currentWalkIndex = 0;
+                applyWalkState();
+            }
+
+            function jumpWalkTo(z) {
+                pauseWalk();
+                const idx = walkOrder.findIndex((item) => item.z === z);
+                if (idx !== -1) {
+                    currentWalkIndex = idx;
+                    applyWalkState();
+                }
+            }
+
+            function resetWalk() {
+                pauseWalk();
+                currentWalkIndex = 0;
+                applyWalkState();
+            }
+
+            function applyWalkState() {
+                if (!walkOrder.length) return;
+                const target = walkOrder[currentWalkIndex];
+
+                document.querySelectorAll(".grid-cell").forEach((el) => {
+                    el.classList.remove("active-walk", "in-path");
+                });
+
+                for (let i = 0; i <= currentWalkIndex; i++) {
+                    const item = walkOrder[i];
+                    const el = document.getElementById(
+                        `cell-${item.k1}-${item.k2}`,
+                    );
+                    if (el) el.classList.add("in-path");
+                }
+
+                const activeEl = document.getElementById(
+                    `cell-${target.k1}-${target.k2}`,
+                );
+                if (activeEl) {
+                    activeEl.classList.add("active-walk");
+                }
+
+                drawSnakePath();
+                inspectCell(target);
+            }
+
+            // Render LaTeX into static titles and footer
+            function renderStaticLatex() {
+                document.getElementById("title-step-a").innerHTML =
+                    `Rational &rarr; ${tex("\\mathbb{N}_0 \\times \\mathbb{N}_0")} Mapping`;
+                document.getElementById("title-step-b").innerHTML =
+                    `Cantor Pairing ${tex("\\mathbb{N}_0 \\times \\mathbb{N}_0 \\to \\mathbb{N}_0")}`;
+                document.getElementById("title-unpair-a").innerHTML =
+                    `Extracting ${tex("(k_1, k_2)")} from ${tex("z")}`;
+                document.getElementById("title-unpair-b").innerHTML =
+                    `Recovering Numerator & Denominator`;
+                document.getElementById("section-3-title").innerHTML =
+                    `Cantor Pairing Visualizer: ${tex("\\mathbb{N}_0 \\times \\mathbb{N}_0 \\to \\mathbb{N}_0")} (The 2D Grid to 1D Line Trick)`;
+
+                const formulaBanner = tex(
+                    "\\pi(k_1, k_2) = \\frac{(k_1 + k_2)(k_1 + k_2 + 1)}{2} + k_2 = z",
+                );
+                document.getElementById("info-footer-text").innerHTML = `
+        <strong>Why does this work?</strong> Cantor's pairing function ${formulaBanner} is a bijective mapping between ${tex("\\mathbb{N}_0 \\times \\mathbb{N}_0")} and ${tex("\\mathbb{N}_0")}.
+        By first mapping any integer numerator into ${tex("\\mathbb{N}_0")} and denominator into ${tex("\\mathbb{N}_0")}, every rational fraction is guaranteed a unique natural number index <strong>z</strong>.
+        Repeating the symbol <code>'1'</code> exactly <strong>z</strong> times gives a complete unary number system!
+      `;
+            }
+
+            // Initialize all sections
+            function initAll() {
+                renderStaticLatex();
+                setBase10(1, 2);
+                updateUnaryToBase10();
+                setGridSize(2);
+                applyWalkState();
+            }
+
+            window.addEventListener("DOMContentLoaded", initAll);
+            window.addEventListener("resize", () => drawSnakePath());
+        </script>
+    </body>
+</html>

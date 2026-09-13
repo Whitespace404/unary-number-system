@@ -1,27 +1,21 @@
 <img width="1280" height="640" alt="git (1)" src="https://github.com/user-attachments/assets/8920b256-2ba8-4988-b824-5351134eb4bd" />
 
-
-
-# [Project Name] 🎯
-
+# [Unary Number System]
 
 ## Basic Details
 ### Team Name: [Name]
 
-
 ### Team Members
 - Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
 
 ### Project Description
-[2-3 lines about what your project does]
+[Creates an alternative number system that uses only 1 symbol]
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+[The existing number systems are too efficient, so I am creating a new number system that is extremely inefficient and uses only one symbol]
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+[By creating a number system that uses only one symbol. By creating a surjective mapping from the set of rationals to the set of natural numbers, I can show MOST of the numbers that we care about in a unary system]
 
 ## Technical Details
 ### Technologies/Components Used
@@ -31,10 +25,6 @@ For Software:
 - [Libraries used]
 - [Tools used]
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
 ### Implementation
 For Software:
@@ -61,25 +51,6 @@ For Software:
 ![Workflow](Add your workflow/architecture diagram here)
 *Add caption explaining your workflow*
 
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
-
 ### Project Demo
 # Video
 [Add your demo video link here]
@@ -90,8 +61,6 @@ For Hardware:
 
 ## Team Contributions
 - [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
